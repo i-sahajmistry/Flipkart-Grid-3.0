@@ -1,63 +1,92 @@
-#include <Arduino.h>
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
-
-const uint16_t port = 1234;
-const char *host = "10.42.0.1";
+#include <Servo.h>
 WiFiClient client;
 
-int m = 0;
-int _m = 2;
+Servo myMotor;
 
+const uint16_t port = 2222;
+const char *host = "10.42.0.1";
+
+const int n = 6;
+int m[n] = {14,12,15,13,2,0};
+
+const int len = 11;
+char a[len];
+
+int cti(char c)
+{
+    return (int(c) - 48);
+}
+
+int sti(int s)
+{
+    int n = 0;
+    for(int i = s; i < s + 3; i++)
+    {
+        n *= 10;
+        n += cti(a[i]);
+    }
+    return n;
+}
 void setup()
 {
+    myMotor.attach(4);
+    myMotor.write(0);
+    
     pinMode(LED_BUILTIN, OUTPUT);
-    pinMode(m, OUTPUT);
-    pinMode(_m, OUTPUT);
     digitalWrite(LED_BUILTIN, LOW);
-    digitalWrite(m, LOW);
-    digitalWrite(_m, LOW);
-    Serial.begin(9600);
+    for(int i = 0; i < n; i++)
+        pinMode(m[i], OUTPUT);
+
+    for(int i = 0; i < n; i++)
+      digitalWrite(m[i], LOW);
+
+    Serial.begin(250000);
     Serial.println("Connecting...\n");
     WiFi.mode(WIFI_STA);
     WiFi.begin("Anthrax-Inspiron-5580", "x8XDXYnq"); 
     while (WiFi.status() != WL_CONNECTED)
     {
-        delay(500);
-        Serial.print("  .");
+        delay(200);
+        Serial.print(" .");
     }
     Serial.println("Wifi Connected !!");
     digitalWrite(LED_BUILTIN, HIGH);
+
 }
 
 void loop()
 {
+    Serial.println(1);
     if (!client.connect(host, port))
     {
         Serial.println("Connection to host failed");
-        delay(1000);
         return;
     }
-    //Serial.println("Connected to server successful!");
-    //client.println("Hello From ESP8266");
-    delay(250);
-    while (client.available() > 0)
+    Serial.println(2);
+    
+    delay(40);
+    for(int i = 0; client.available() > 0; i++)
     {
-        char c = client.read();
-        if(c == 'H')
-        {
-          Serial.println(c);
-          digitalWrite(_m, HIGH);
-          digitalWrite(m, LOW);
-          delay(7000);                   
-        }
-        else
-        {
-          Serial.println(c);
-          digitalWrite(m, HIGH);
-          digitalWrite(_m, LOW);
-          delay(7000); 
-        }
+        a[i] = client.read();
+        Serial.print(a[i]);
+    } 
+    Serial.println();
+    if (a[10] == '1')
+    {
+      myMotor.write(130);
     }
+    for(int i = 0; i < 4; i++)
+    {
+      digitalWrite(m[i], cti(a[i]));
+      Serial.println(cti(a[i]));
+    }
+    analogWrite (m[4], sti(4));
+    Serial.println(sti(4));
+    analogWrite (m[5], sti(7));
+    Serial.println(sti(7));
+    Serial.println();
     client.stop();
+    //delay(100);
 }
