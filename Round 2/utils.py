@@ -1,10 +1,16 @@
 import pandas as pd
 import cv2
 import cv2.aruco as aruco
+import numpy as np
+from math import atan2, degrees
+
+height = 750
+width = 750
+(centerX, centerY) = (width // 2, height // 2)
 
 def read_data():
     df = pd.read_csv('Round 2\data.csv', usecols=['Induct Station', 'Destination'])
-    induct = [df[:141], df[141:]]
+    induct = [np.array(df[:141]), np.array(df[141:])]
     return induct
 
 def detectMarker(img, location, markerSize=4, totalMarker=50, draw=True):
@@ -31,10 +37,20 @@ def detectMarker(img, location, markerSize=4, totalMarker=50, draw=True):
     return location
 
 
+def warp(frame, corners):
+    pts1 = np.float32(corners)
+    pts2 = np.float32([[0, 0], [width, 0], [width, height], [0, height]])
+    matrix = cv2.getPerspectiveTransform(pts1, pts2)
+    frame = cv2.warpPerspective(frame, matrix, (width, height))
+    M = cv2.getRotationMatrix2D((centerX, centerY), 90, 1.0)
+    frame = cv2.warpAffine(frame, M, (width, height))
+    return frame
+
+
 def getAngle(cxb, cyb, cxg, cyg, dx, dy, tX, tY, location):
-    center = location[l][4]
+    center = location[4]
     if not arucoDetected[0] == []:
-        g, b = location[l][1], location[l][2]
+        g, b = location[1], location[2]
         cxg, cyg = g
         cxb, cyb = b
         cx, cy = cxb, cyb
