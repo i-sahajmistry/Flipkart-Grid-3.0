@@ -1,4 +1,5 @@
 import pandas as pd
+import cv2
 import cv2.aruco as aruco
 
 def read_data():
@@ -6,7 +7,7 @@ def read_data():
     induct = [df[:141], df[141:]]
     return induct
 
-def detectMarker(img, markerSize=4, totalMarker=50, draw=True):
+def detectMarker(img, location, markerSize=4, totalMarker=50, draw=True):
     imgGray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     key = getattr(aruco, f'DICT_{markerSize}X{markerSize}_{totalMarker}')
     arucoDict = aruco.Dictionary_get(key)
@@ -27,7 +28,7 @@ def detectMarker(img, markerSize=4, totalMarker=50, draw=True):
                                 2, (int(bbox[i][0][0][1]) + int(bbox[i][0][2][1]))//2])
 
             location[ids[i][0]] = coordinates
-    return [location]
+    return location
 
 
 def getAngle(cxb, cyb, cxg, cyg, dx, dy, tX, tY, location):
