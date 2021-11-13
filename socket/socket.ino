@@ -77,6 +77,10 @@ void loop()
     {
       myMotor.write(130);
     }
+    if (a[10] == '0')
+    {
+      myMotor.write(0);
+    }
     for(int i = 0; i < 4; i++)
     {
       digitalWrite(m[i], cti(a[i]));
