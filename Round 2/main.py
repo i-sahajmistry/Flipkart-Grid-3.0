@@ -27,7 +27,7 @@ def cvFunc():
         corners = [location[i][4] for i in range(46, 50)]
         frame = warp(frame, corners)
 
-        move_bot(location, destination[0]['M'],laut_jao, 0)#[induct[destNo][1]])
+        dictionary = move_bot(location, destination[0]['M'],destNo)#[induct[destNo][1]])
         print(location[1][4])
 
         cv2.imshow('frame', frame)
@@ -44,8 +44,7 @@ def socketFunc():
         client, addr = s.accept()
         client.settimeout(10)
         print(dictionary)
-        client.send(bytes(dictionary['func'], encoding='utf8'))
-        index = dictionary['l']
+        client.send(bytes(dictionary['bot1'], encoding='utf8'))
         client.close()
 
 socketThread = threading.Thread(target=socketFunc)
