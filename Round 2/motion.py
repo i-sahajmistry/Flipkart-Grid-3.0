@@ -5,7 +5,7 @@ def move_bot(location, destination,laut_jao, stop):
     cx, cy = location[1][4]
     shortestAngle, intHeadingDeg = getAngle(location[1])
 
-    if destination[0] > 1578:
+    if destination[0] > 1167:
         if(laut_jao == 0):
             if(cy < destination[1]):
                 h1 = str(max(0, min(255, 100 - int(intHeadingDeg * 4))))
@@ -25,7 +25,7 @@ def move_bot(location, destination,laut_jao, stop):
             if(intHeadingDeg<-10):
                 dictionary = {'func': f'10010700701'}
             
-            elif(cy>25):
+            elif(cy>73):
                 h1 = str(max(0, min(255, 100 - int(shortestAngle * 4))))
                 h2 = str(max(0, min(255, 100 + int(shortestAngle * 4))))
                 h1 = '0'*(3-len(h1)) + h1
