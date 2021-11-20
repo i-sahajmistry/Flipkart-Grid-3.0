@@ -47,8 +47,8 @@ def warp(frame, corners):
     return frame
 
 
-def getAngle(location, destination, flag):
-    if flag:
+def getAngle(location, destination, laut_jao):
+    if laut_jao:
         tX, tY = 830, 80 # Induct station
     else:
         tX, tY = destination
@@ -82,9 +82,9 @@ def getAngle(location, destination, flag):
         intHeadingDeg = intHeadingDeg-360
     
     if intHeadingDeg > 0:
-        intHeadingDeg = intHeadingDeg - 180
+        intHeading = intHeadingDeg - 180
     else:
-        intHeadingDeg = intHeadingDeg + 180
+        intHeading = intHeadingDeg + 180
 
     dx = center[0] - tX
     dy = center[1] - tY
@@ -108,14 +108,51 @@ def getAngle(location, destination, flag):
         rads = atan2(dx, -dy)
         degs = degrees(rads) + 180
 
+    if tX >= center[0] and tY <= center[1]:
+        rads = atan2( dy, dx)
+        degs = degrees(rads)
+        degs = degs - 90
+
+    elif tX >= center[0] and tY >= center[1]:
+        rads = atan2(dx, dy)
+        degs = degrees(rads)
+        degs = (degs * -1)
+
+    elif tX <= center[0] and tY >= center[1]:
+        rads = atan2(dx, -dy)
+        degs = degrees(rads)
+        degs = degs + 180
+
+    elif tX <= center[0] and tY <= center[1]:
+        rads = atan2(dx, -dy)
+        degs = degrees(rads) + 180
+
+    # if center[0]>tX and center[1]<tY:
+    #     rads=atan2(center[0]-tX,tY-center[1])
+    #     degs=degrees(rads)
+    
+    # elif center[0]<tX and center[1]<tY:
+    #     rads=atan2(tX-center[0],tY-center[1])
+    #     degs=degrees(rads)
+    # elif center[0]<tX and center[1]>tY:
+    #     rads=atan2(tX-center[0],center[1]-tY)
+    #     degs=degrees(rads)
+    # else:
+    #     rads=atan2(center[0]-tX,center[1]-tY)
+    #     degs=degrees(rads)
+
+
     if degs > 180:
         degs = degs-360
+
+    print("degrees-> ",degs)
+    print("Tx ",tX,"TY", tY,"centre 0" ,center[0], "center 1", center[1])
 
     shortestAngle = degs - intHeadingDeg
     if shortestAngle > 180:
         shortestAngle -= 360
-
-    if shortestAngle < -180:
+    elif shortestAngle < -180:
         shortestAngle += 360
+    print(shortestAngle)
 
-    return [shortestAngle, intHeadingDeg]
+    return [shortestAngle, intHeading]
