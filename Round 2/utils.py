@@ -9,7 +9,7 @@ width = 750
 (centerX, centerY) = (width // 2, height // 2)
 
 def read_data():
-    df = pd.read_csv('Round 2\data.csv', usecols=['Induct Station', 'Destination'])
+    df = pd.read_csv('/home/neeraj/Robosapians/Round 2/dat.csv', usecols=['Induct Station', 'Destination'])
     induct = [np.array(df[:141]), np.array(df[141:])]
     return induct
 
@@ -47,8 +47,11 @@ def warp(frame, corners):
     return frame
 
 
-def getAngle(location):
-    tX, tY = 0, 0 # Induct station
+def getAngle(location, destination, flag):
+    if flag:
+        tX, tY = 830, 80 # Induct station
+    else:
+        tX, tY = destination
     center = location[4]
     g, b = location[1], location[2]
     cxg, cyg = g
@@ -114,4 +117,5 @@ def getAngle(location):
 
     if shortestAngle < -180:
         shortestAngle += 360
+
     return [shortestAngle, intHeadingDeg]
