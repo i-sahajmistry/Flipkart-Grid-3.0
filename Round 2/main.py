@@ -15,8 +15,8 @@ def cvFunc():
     induct = read_data()[0]
     destNo = 0
 
-    location = {i: [[0, 0] for j in range(5)] for i in range(0, 50)}
-    destination = [{'M': [833, 195], 'D':[833, 353], 'K':[833, 517], 'C' :[788,198], 'B': [788,351], 'H': [788,518]}]
+    location = {i: [[0, 0] for j in range(5)] for i in range(0, 8)}
+    destination = [{'M': [833, 195], 'D':[833, 353], 'K':[833, 517], 'C' :[800,198], 'B': [800,351], 'H': [800,518]}]
 
     vid = cv2.VideoCapture(0)
     vid.set(3, 1420) 
@@ -27,7 +27,7 @@ def cvFunc():
 
         location = detectMarker(frame, location, markerSize=4,totalMarker=50, draw=True)
         
-        corners = [location[i][4] for i in range(46, 50)]
+        corners = [location[i][4] for i in range(4, 8)]
         frame = warp(frame, corners)
         dictionary, destNo = move_bot(location, destination[0][induct[destNo][1]],destNo,dictionary)
         print(location[1][4])

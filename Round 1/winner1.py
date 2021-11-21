@@ -8,7 +8,6 @@ import threading
 import cv2
 import cv2 as cv
 import cv2.aruco as aruco
-import imutils
 import numpy as np
 
 
@@ -119,7 +118,7 @@ def cvfunc():
             shortestAngle += 360
         return [shortestAngle, intHeadingDeg, cx, cy]
 
-    vid = cv2.VideoCapture(1, cv2.CAP_DSHOW)
+    vid = cv2.VideoCapture(0)
     vid.set(3, 1420)
     vid.set(4, 800)
 

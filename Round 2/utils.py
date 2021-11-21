@@ -49,7 +49,7 @@ def warp(frame, corners):
 
 def getAngle(location, destination, laut_jao):
     if laut_jao:
-        tX, tY = 830, 80 # Induct station
+        tX, tY = 830, 50 # Induct station
     else:
         tX, tY = destination
     center = location[4]
