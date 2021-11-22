@@ -48,10 +48,8 @@ def warp(frame, corners):
 
 
 def getAngle(location, destination, laut_jao):
-    if laut_jao:
-        tX, tY = 830, 50 # Induct station
-    else:
-        tX, tY = destination
+    
+    tX, tY = destination
     center = location[4]
     g, b = location[1], location[2]
     cxg, cyg = g
@@ -145,14 +143,14 @@ def getAngle(location, destination, laut_jao):
     if degs > 180:
         degs = degs-360
 
-    print("degrees-> ",degs)
-    print("Tx ",tX,"TY", tY,"centre 0" ,center[0], "center 1", center[1])
+    # print("degrees-> ",degs)
+    # print("Tx ",tX,"TY", tY,"centre 0" ,center[0], "center 1", center[1])
 
     shortestAngle = degs - intHeadingDeg
     if shortestAngle > 180:
         shortestAngle -= 360
     elif shortestAngle < -180:
         shortestAngle += 360
-    print(shortestAngle)
+    # print(shortestAngle)
 
     return [shortestAngle, intHeading]

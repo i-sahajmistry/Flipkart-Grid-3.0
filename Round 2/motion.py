@@ -6,13 +6,20 @@ then = 0
 stop = 0
 laut_jao = 0
 sidha_laut = 0
-
+target=0
+con2=0
+con3=0
+con4=0
+con5=0
+con6=0 
+con7=0
 
 def move_bot(location, destination, destNo, dictionary):
-    global stop, then, s, laut_jao, sidha_laut
+    global stop, then, s, laut_jao, sidha_laut, target,con2,con3, con4, con5,con6,con7
     cx, cy = location[1][4]
-    shortestAngle, intHeadingDeg = getAngle(location[1], destination, laut_jao)
-    print(shortestAngle, "****", intHeadingDeg)
+    shortestAngle, intHeadingDeg = getAngle(location[1], destination[target], laut_jao)
+    print(target, "****", shortestAngle, "****", intHeadingDeg)
+    # print("destination", destination)
 
     if stop == 1:
         now = time.time()
@@ -22,10 +29,15 @@ def move_bot(location, destination, destNo, dictionary):
         elif now - then > 1:
             s = 0
             stop = 0
+    # Mumbai Delhi Kolkata code
 
-    if destination[0] > 826:
+    print("\n","\n")
+    if destination[-2][0] > 826:
+        # going to MUmbai, Delhi Kolkata
         if(laut_jao == 0):
-            if(cy < destination[1]):
+            
+            if(cy < destination[target][1]):
+                target=0
                 h1 = str(max(0, min(255, 100 - int((shortestAngle * 5)))))
                 h2 = str(max(0, min(255, 100 + int((shortestAngle * 5)))))
                 h1 = '0'*(3-len(h1)) + h1
@@ -35,26 +47,28 @@ def move_bot(location, destination, destNo, dictionary):
 
             elif(intHeadingDeg > -85):
                 dictionary = {'bot1': f'01101101100'}
-                print("rotate")
+                print("left-rotate")
 
             else:
                 # original  dictionary = {'bot1': f'10011301301'}
                 dictionary = {'bot1': f'10010000001'}
-
                 laut_jao = 1
 
         else:
+            #returning from mumbai, Delhi Kolkata
             if(intHeadingDeg < -30 and sidha_laut == 0):
-                print("anti- rotate")
-
-                dictionary = {'bot1': f'10011301301'}
+                print("right-rotate")
+                dictionary = {'bot1': f'10011301300'}
+                target=1
 
             elif(cy > 53):
+                target=1
                 sidha_laut = 1
                 if(shortestAngle < 0):
                     shortestAngle += 180
                 else:
                     shortestAngle -= 180
+                
                 h1 = str(max(0, min(255, 100 + int((shortestAngle) * 5))))
                 h2 = str(max(0, min(255, 100 - int((shortestAngle) * 5))))
                 h1 = '0'*(3-len(h1)) + h1
@@ -65,54 +79,71 @@ def move_bot(location, destination, destNo, dictionary):
             else:
                 laut_jao = 0
                 stop = 1
+                target=0
                 destNo = destNo+1
                 dictionary = {'bot1': f'10010000000'}
-
-    elif(destination[0] > 650):
+    
+    #  Chennai, Bengaluru , Hyderebad
+    elif(destination[-2][0] > 650):
         if(laut_jao == 0):
-            if(cy < destination[1]):
+            if(cy < destination[target][1] and intHeadingDeg < 30):
+                target=0
                 h1 = str(max(0, min(255, 100 - int((shortestAngle * 5)))))
                 h2 = str(max(0, min(255, 100 + int((shortestAngle * 5)))))
                 h1 = '0'*(3-len(h1)) + h1
                 h2 = '0'*(3-len(h2)) + h2
                 dictionary = {'bot1': f'1010{h2}{h1}0'}
-                print("forward")
+                print("forward", cx, destination[target][0])
 
-            elif(intHeadingDeg < 85):
+            elif(intHeadingDeg < 30):
                 dictionary = {'bot1': f'10011101100'}
-                print("rotate")
+                print("right-rotate")
+                target=1
 
-            elif(cx > destination[0]):
-                h1 = str(max(0, min(255, 100 + int((shortestAngle * 5)))))
-                h2 = str(max(0, min(255, 100 - int((shortestAngle * 5)))))
+            elif(cx > destination[target][0]):
+                target =1
+                # 
+                h1 = str(max(0, min(255, 100 - int((shortestAngle *2)))))
+                h2 = str(max(0, min(255, 100 + int((shortestAngle * 2)))))
                 h1 = '0'*(3-len(h1)) + h1
                 h2 = '0'*(3-len(h2)) + h2
+
                 dictionary = {'bot1': f'1010{h2}{h1}0'}
-                print("right")
+                print("right-move")
+
 
             else:
                 # original  dictionary = {'bot1': f'10011301301'}
                 dictionary = {'bot1': f'10010000001'}
                 laut_jao = 1
+                target=0
 
+        # returning from Chennai Bengaluru , Hyderebad
         else:
-            if(cx < 833):
+
+            if(cx < 833 ):
+                target=0
                 if(shortestAngle < 0):
                     shortestAngle += 180
                 else:
                     shortestAngle -= 180
-                h1 = str(max(0, min(255, 100 + int((shortestAngle) * 5))))
-                h2 = str(max(0, min(255, 100 - int((shortestAngle) * 5))))
+                
+                
+                
+                h1 = str(max(0, min(255, 100 + int((shortestAngle) ))))
+                h2 = str(max(0, min(255, 100 - int((shortestAngle) ))))
                 h1 = '0'*(3-len(h1)) + h1
                 h2 = '0'*(3-len(h2)) + h2
                 dictionary = {'bot1': f'0101{h2}{h1}0'}
-                print("backward")
+                print("left-move(backward)")
 
-            elif(intHeadingDeg > 10):
-                dictionary = {'bot1': f'10011101100'}
-                print("rotate")
+            elif(intHeadingDeg > 30):
+                dictionary = {'bot1': f'01101101100'}
+                print("left-rotate")
+                target=2
 
             elif(cy > 53):
+                target=2
                 sidha_laut = 1
                 if(shortestAngle < 0):
                     shortestAngle += 180
@@ -123,56 +154,197 @@ def move_bot(location, destination, destNo, dictionary):
                 h1 = '0'*(3-len(h1)) + h1
                 h2 = '0'*(3-len(h2)) + h2
                 dictionary = {'bot1': f'0101{h2}{h1}0'}
-                print("backward")
+                print("backward to IS 1")
 
             else:
                 laut_jao = 0
                 stop = 1
                 destNo = destNo+1
+                target=0
                 dictionary = {'bot1': f'10010000000'}
+    
 
-        # if(laut_jao == 0):
-        #     if(cy < destination[1]):
-        #         h1 = str(max(0, min(255, 100 - int((shortestAngle * 5)))))
-        #         h2 = str(max(0, min(255, 100 + int((shortestAngle * 5)))))
-        #         h1 = '0'*(3-len(h1)) + h1
-        #         h2 = '0'*(3-len(h2)) + h2
-        #         dictionary = {'bot1': f'1010{h2}{h1}0'}
-        #         print("forward")
 
-        #     elif(intHeadingDeg < 85):
-        #         dictionary = {'bot1': f'10011101100'}
-        #         print("rotate")
+    # code for going to Pune, Ahemdabad , Jaipur
+    
 
-        #     else:
-        #         # original  dictionary = {'bot1': f'10011301301'}
-        #         dictionary = {'bot1': f'01100000001'}
+    else:
+        # going in front of IS 02
+        # 1)
+        #                 |
+        #   | -> -> -> -> |
+        #   |
+        # hardcoding above code
 
-        #         laut_jao = 1
 
-        # else:
-        #     if(intHeadingDeg < 30 and sidha_laut==0):
-        #         print("anti- rotate")
+        #going to pune, ahmedabad, jaipur
 
-        #         dictionary = {'bot1': f'01101301301'}
 
-            # elif(cy > 53):
-            #     sidha_laut=1
-            #     if(shortestAngle < 0):
-            #         shortestAngle+=180
-            #     else:
-            #         shortestAngle-=180
-            #     h1 = str(max(0, min(255, 100 + int((shortestAngle )* 5))))
-            #     h2 = str(max(0, min(255, 100 - int((shortestAngle )* 5))))
-            #     h1 = '0'*(3-len(h1)) + h1
-            #     h2 = '0'*(3-len(h2)) + h2
-            #     dictionary = {'bot1': f'0101{h2}{h1}0'}
-            #     print("backward")
+        if(laut_jao ==0):
 
-            # else:
-            #     laut_jao = 0
-            #     stop = 1
-            #     destNo = destNo+1
-            #     dictionary = {'bot1': f'10010000000'}
+            if(cy< destination[target][1] and con2==0 and con3==0 and con4==0 and con5==0 and con6==0):
+                target=0
+                h1 = str(max(0, min(255, 100 - int((shortestAngle * 5)))))
+                h2 = str(max(0, min(255, 100 + int((shortestAngle * 5)))))
+                h1 = '0'*(3-len(h1)) + h1
+                h2 = '0'*(3-len(h2)) + h2
+                dictionary = {'bot1': f'1010{h2}{h1}0'}
+                print("forward -1")
+                
+            elif(intHeadingDeg<30 and con3==0 and con4==0 and con5==0 and con6==0):
+                dictionary = {'bot1': f'10011101100'}
+                print("right-rotate -1")
+                target=1
+                con2=1
+            elif(cx> destination[target][0] and con4==0 and con5==0 and con6==0 ):
+                target=1
+                h1 = str(max(0, min(255, 100 - int((shortestAngle * 5)))))
+                h2 = str(max(0, min(255, 100 + int((shortestAngle * 5)))))
+                h1 = '0'*(3-len(h1)) + h1
+                h2 = '0'*(3-len(h2)) + h2
+                dictionary = {'bot1': f'1010{h2}{h1}0'}
+                print("right-move(forward) -1")
+                con3=1
+            # elif(target==1):
+            #     target=2
+            elif(intHeadingDeg >30 and con5==0 and con6==0 ):
+                dictionary = {'bot1': f'01101101100'}
+                print("left-rotate-1")
+                target=2
+                con4=1
+            elif(cy<destination[target][1] and con6==0 ):
+                target=2
+                h1 = str(max(0, min(255, 100 - int((shortestAngle * 5)))))
+                h2 = str(max(0, min(255, 100 + int((shortestAngle * 5)))))
+                h1 = '0'*(3-len(h1)) + h1
+                h2 = '0'*(3-len(h2)) + h2
+                dictionary = {'bot1': f'1010{h2}{h1}0'}
+                print("forward-2")
+                con5=1
+            
+            elif(intHeadingDeg>-85 ):
+                dictionary = {'bot1': f'01101101100'}
+                print("left-rotate-2")
+                target=2
+                con6=1
+
+
+            else:
+                dictionary = {'bot1': f'10010000001'}
+                laut_jao = 1
+                con2=0
+                con3=0
+                con4=0
+                con5=0
+                con6=0 
+                con7=0
+
+        # returning from pune, ahmedabad , and jaipur
+        else:
+            if(intHeadingDeg < -30 and con2==0 and con3==0 and con4==0 and con5==0 and con6==0):
+                print("right-rotate-2")
+                dictionary = {'bot1': f'10011301300'}
+                target=1
+            # elif(target==2):
+            #     target=1
+            elif(cy>destination[target][1] and con3==0 and con4==0 and con5==0 and con6==0):
+                target=1
+
+                if(shortestAngle < 0):
+                    shortestAngle += 180
+                else:
+                    shortestAngle -= 180
+                
+                h1 = str(max(0, min(255, 100 + int((shortestAngle) * 5))))
+                h2 = str(max(0, min(255, 100 - int((shortestAngle) * 5))))
+                h1 = '0'*(3-len(h1)) + h1
+                h2 = '0'*(3-len(h2)) + h2
+                dictionary = {'bot1': f'0101{h2}{h1}0'}
+                print("backward-1")
+                con2=1
+            elif(intHeadingDeg <30 and con4==0 and con5==0 and con6==0):
+                dictionary = {'bot1': f'10011101100'}
+                print("right-rotate-3")
+                target=0
+                con3=1
+            elif(cx<destination[target][0] and con5==0 and con6==0):
+                target=0
+                if(shortestAngle < 0):
+                    shortestAngle += 180
+                else:
+                    shortestAngle -= 180
+                
+                h1 = str(max(0, min(255, 100 + int((shortestAngle) * 5))))
+                h2 = str(max(0, min(255, 100 - int((shortestAngle) * 5))))
+                h1 = '0'*(3-len(h1)) + h1
+                h2 = '0'*(3-len(h2)) + h2
+                dictionary = {'bot1': f'0101{h2}{h1}0'}
+                print("left-move(backward)-1")
+                con4=1
+            elif(intHeadingDeg >30 and con6==0 ):
+                dictionary = {'bot1': f'01101101100'}
+                print("left-rotate -3")
+                target=3
+                con5=1
+            elif(cy > 53):
+                target=3
+                sidha_laut = 1
+                if(shortestAngle < 0):
+                    shortestAngle += 180
+                else:
+                    shortestAngle -= 180
+                
+                h1 = str(max(0, min(255, 100 + int((shortestAngle) * 5))))
+                h2 = str(max(0, min(255, 100 - int((shortestAngle) * 5))))
+                h1 = '0'*(3-len(h1)) + h1
+                h2 = '0'*(3-len(h2)) + h2
+                dictionary = {'bot1': f'0101{h2}{h1}0'}
+                print("backward-2")
+                con6=1
+
+            else:
+                laut_jao = 0
+                stop = 1
+                target=0
+                destNo = destNo+1
+                dictionary = {'bot1': f'10010000000'}
+                con2=0
+                con3=0
+                con4=0
+                con5=0
+                con6=0 
+                con7=0
+    
+
+            
+            
+
+
+                
+
+
+
+        
+
+        
+
+            
+
+            
+
+
+
 
     return dictionary, destNo
+
+
+
+            
+
+
+
+
+
+
+
+
