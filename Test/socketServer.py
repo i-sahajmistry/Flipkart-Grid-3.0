@@ -17,7 +17,7 @@ while True:
         client, addr = s[i].accept()
         # client.settimeout(200)
 
-        with open('./data.json', 'r') as file:
+        with open('/home/neeraj/Robosapians/Test/data.json', 'r') as file:
             data = file.read()
             try:
                 y = json.loads(data)
