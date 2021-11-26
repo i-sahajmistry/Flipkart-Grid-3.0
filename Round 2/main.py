@@ -25,17 +25,18 @@ def cvFunc():
                     'P':[[834, 95], [504, 110], [508, 174], [830, 50]],
                     'A':[[834, 95], [504, 110], [508, 337], [830, 50]],
                     'J':[[834, 95], [504, 110], [508, 512], [830, 50]]},
+                    
                     {'P': [[632,151], [631,40]],
                     'A':[[633,323], [631,40]],
                     'J':[[633,489], [631,40]],
-                    'C':[[633,151], [679,163], [631,40]],
-                    'B':[[633,323], [676,322], [631,40]],
-                    'H':[[633,489], [680,496], [631,40]],
-                    'M':[[632,113], [957,79], [965,159], [631,40]],
-                    'D':[[632,113], [957,79], [969,320], [631,40]],
-                    'K':[[632,113], [957,79], [969,320], [631,40]]}]
+                    'C':[[633,151], [679,170], [631,40]],
+                    'B':[[633,323], [676,342], [631,40]],
+                    'H':[[633,489], [680,509], [631,40]],
+                    'M':[[632,117], [955,125], [632,130], [965,159], [631,40]],
+                    'D':[[632,117], [955,125], [632,130], [969,320], [631,40]],
+                    'K':[[632,117], [955,125], [632,130], [969,505], [631,40]]}]
 
-    vid = cv2.VideoCapture(0)
+    vid = cv2.VideoCapture(2)
     vid.set(3, 1420)
     vid.set(4, 800)
 
@@ -47,9 +48,9 @@ def cvFunc():
 
         corners = [location[i][4] for i in range(4, 8)]
         frame = warp(frame, corners)
-        print(induct[1][destNo2][1])
-        # dictionary, destNo1 = motion1.move_bot(
-        #     location, destination[0][induct[0][destNo1][1]], destNo1, dictionary)
+        print(induct[0][destNo1][1], induct[1][destNo2][1])
+        dictionary, destNo1 = motion1.move_bot(
+            location, destination[0][induct[0][destNo1][1]], destNo1, dictionary)
 
         dictionary, destNo2 = motion2.move_bot(
             location, destination[1][induct[1][destNo2][1]], destNo2, dictionary)
@@ -89,8 +90,8 @@ def socketFunc2():
         client.close()
 
 
-# socketThread = threading.Thread(target=socketFunc1)
-# socketThread.start()
+socketThread = threading.Thread(target=socketFunc1)
+socketThread.start()
 
 socketThread = threading.Thread(target=socketFunc2)
 socketThread.start()
