@@ -18,9 +18,9 @@ def cvFunc():
     location = {i: [[0, 0] for j in range(5)] for i in range(0, 8)}
     destination = [{'M': [[833, 160], [830, 50]],
                     'D':[[833, 330], [830, 50]],
-                    'K':[[833, 500], [830, 50]],
-                    'C':[[833, 160], [800, 190], [830, 50]],
-                    'B':[[833, 330], [800, 360], [830, 50]],
+                    'K':[[843, 500], [830, 50]],
+                    'C':[[833, 160], [820, 190], [830, 50]],
+                    'B':[[833, 330], [820, 360], [830, 50]],
                     'H':[[833, 500], [800, 530], [830, 50]],
                     'P':[[834, 95], [504, 110], [508, 174], [830, 50]],
                     'A':[[834, 95], [504, 110], [508, 337], [830, 50]],
@@ -52,8 +52,8 @@ def cvFunc():
         dictionary, destNo1 = motion1.move_bot(
             location, destination[0][induct[0][destNo1][1]], destNo1, dictionary)
 
-        dictionary, destNo2 = motion2.move_bot(
-            location, destination[1][induct[1][destNo2][1]], destNo2, dictionary)
+        # dictionary, destNo2 = motion2.move_bot(
+        #     location, destination[1][induct[1][destNo2][1]], destNo2, dictionary)
 
         print(dictionary, location[1][4])
 
@@ -63,7 +63,7 @@ def cvFunc():
 
 def socketFunc1():
     global dictionary
-    port = 2222
+    port = 1111
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind(('0.0.0.0', port))
     s.listen(0)

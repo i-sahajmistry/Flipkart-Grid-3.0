@@ -9,7 +9,7 @@ width = 750
 (centerX, centerY) = (width // 2, height // 2)
 
 def read_data():
-    df = pd.read_csv('/home/i_sahajmistry/Robosapians/Round 2/data.csv', usecols=['Induct Station', 'Destination'])
+    df = pd.read_csv('/home/i_sahajmistry/Documents/Robosapians/Round 2/dat.csv', usecols=['Induct Station', 'Destination'])
     induct = [np.array(df[:141]), np.array(df[141:])]
     return induct
 

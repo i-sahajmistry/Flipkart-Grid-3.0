@@ -6,6 +6,7 @@ then = 0
 stop = 0
 laut_jao = 0
 target=0
+con1=0
 con2=0
 con3=0
 con4=0
@@ -14,7 +15,7 @@ con6=0
 con7=0
 
 def move_bot(location, destination, destNo2, dictionary):
-    global stop, then, s, laut_jao, target,con2,con3, con4, con5,con6,con7
+    global stop, then, s, laut_jao, target,con1,con2,con3, con4, con5,con6,con7
     cx, cy = location[1][4]
     shortestAngle, intHeadingDeg = getAngle(location[1], destination[target], laut_jao)
     print(target, "****", shortestAngle, "****", intHeadingDeg)
@@ -121,7 +122,7 @@ def move_bot(location, destination, destNo2, dictionary):
 
         # returning from Chennai Bengaluru , Hyderebad
         else:
-            if(cx > 640 and con2==0 and con3==0):
+            if(cx > 640 and con2==0 and con3==0 and con1==0):
                 target=0
                 if(shortestAngle < 0):
                     shortestAngle += 180

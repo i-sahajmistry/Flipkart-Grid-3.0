@@ -7,6 +7,7 @@ stop = 0
 laut_jao = 0
 sidha_laut = 0
 target=0
+con1=0
 con2=0
 con3=0
 con4=0
@@ -15,10 +16,10 @@ con6=0
 con7=0
 
 def move_bot(location, destination, destNo, dictionary):
-    global stop, then, s, laut_jao, sidha_laut, target,con2,con3, con4, con5,con6,con7
-    cx, cy = location[1][4]
-    shortestAngle, intHeadingDeg = getAngle(location[1], destination[target], laut_jao)
-    print(target, "****", shortestAngle, "****", intHeadingDeg)
+    global stop, then, s, laut_jao, sidha_laut, target, con1,con2,con3, con4, con5,con6,con7
+    cx, cy = location[0][4]
+    shortestAngle, intHeadingDeg = getAngle(location[0], destination[target], laut_jao)
+    print(target, "****", shortestAngle, "****", intHeadingDeg , "****", laut_jao)
     # print("destination", destination)
 
     if stop == 1:
@@ -61,7 +62,7 @@ def move_bot(location, destination, destNo, dictionary):
                 dictionary['bot1'] = f'10011301300'
                 target=1
 
-            elif(cy > 53):
+            elif(cy > 63):
                 target=1
                 sidha_laut = 1
                 if(shortestAngle < 0):
@@ -121,7 +122,7 @@ def move_bot(location, destination, destNo, dictionary):
         # returning from Chennai Bengaluru , Hyderebad
         else:
 
-            if(cx < 833 ):
+            if(cx < 833 and con1 == 0):
                 target=0
                 if(shortestAngle < 0):
                     shortestAngle += 180
@@ -141,10 +142,10 @@ def move_bot(location, destination, destNo, dictionary):
                 dictionary['bot1'] = f'01101101100'
                 print("left-rotate")
                 target=2
+                con1 = 1
 
-            elif(cy > 53):
+            elif(cy > 63):
                 target=2
-                sidha_laut = 1
                 if(shortestAngle < 0):
                     shortestAngle += 180
                 else:
@@ -161,6 +162,7 @@ def move_bot(location, destination, destNo, dictionary):
                 stop = 1
                 destNo = destNo+1
                 target=0
+                con1 = 0
                 dictionary['bot1'] = f'10010000000'
     
 
@@ -268,7 +270,7 @@ def move_bot(location, destination, destNo, dictionary):
                 print("left-rotate -3")
                 target=3
                 con5=1
-            elif(cy > 53):
+            elif(cy > 63):
                 target=3
                 sidha_laut = 1
                 if(shortestAngle < 0):
