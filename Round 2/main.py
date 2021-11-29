@@ -32,11 +32,11 @@ def cvFunc():
                     'C':[[633,151], [679,170], [631,40]],
                     'B':[[633,323], [676,342], [631,40]],
                     'H':[[633,489], [680,509], [631,40]],
-                    'M':[[632,117], [955,125], [632,130], [965,159], [631,40]],
-                    'D':[[632,117], [955,125], [632,130], [969,320], [631,40]],
-                    'K':[[632,117], [955,125], [632,130], [969,505], [631,40]]}]
+                    'M':[[682,262], [853,264], [631,40]],
+                    'D':[[683,274], [870,294], [631,40]],
+                    'K':[[682,262], [979,294], [980,494], [631,40]]}]
 
-    vid = cv2.VideoCapture(2)
+    vid = cv2.VideoCapture(0)
     vid.set(3, 1420)
     vid.set(4, 800)
 
@@ -49,13 +49,13 @@ def cvFunc():
         corners = [location[i][4] for i in range(4, 8)]
         frame = warp(frame, corners)
         print(induct[0][destNo1][1], induct[1][destNo2][1])
-        dictionary, destNo1 = motion1.move_bot(
-            location, destination[0][induct[0][destNo1][1]], destNo1, dictionary)
+        # dictionary, destNo1 = motion1.move_bot(
+        #     location, destination[0][induct[0][destNo1][1]], destNo1, dictionary)
 
-        # dictionary, destNo2 = motion2.move_bot(
-        #     location, destination[1][induct[1][destNo2][1]], destNo2, dictionary)
+        dictionary, destNo2 = motion2.move_bot(
+            location, destination[1][induct[1][destNo2][1]], destNo2, dictionary, induct[1][destNo2][1])
 
-        print(dictionary, location[1][4])
+        print(dictionary, location[0][4], "\n")
 
         cv2.imshow('frame', frame)
         cv2.waitKey(1)
