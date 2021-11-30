@@ -9,7 +9,7 @@ width = 750
 (centerX, centerY) = (width // 2, height // 2)
 
 def read_data():
-    df = pd.read_csv('/home/i_sahajmistry/Documents/Robosapians/Round 2/dat.csv', usecols=['Induct Station', 'Destination'])
+    df = pd.read_csv('/home/neeraj/Robosapians/Round 2/dat.csv', usecols=['Induct Station', 'Destination'])
     induct = [np.array(df[:141]), np.array(df[141:])]
     return induct
 
@@ -56,6 +56,8 @@ def getAngle(location, destination, laut_jao):
     cxb, cyb = b
     cx, cy = cxb, cyb
     dx, dy = g[0] - b[0], g[1] - b[1]
+
+    
 
     if cxg >= cxb and cyg <= cyb:
         rads = atan2(dy, dx)

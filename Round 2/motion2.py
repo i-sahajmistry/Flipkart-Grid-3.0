@@ -13,8 +13,9 @@ def move_bot(location, destination, destNo2, dictionary, letter):
     cx, cy = location[1][4]
     shortestAngle, intHeadingDeg = getAngle(
         location[1], destination[target], laut_jao)
-    print(target, "****", shortestAngle, "****", intHeadingDeg)
+    # print(target, "****", shortestAngle, "****", intHeadingDeg)
     # print("destination", destination)
+    print(cx," **",cy)
 
     if stop == 1:
         now = time.time()
@@ -32,14 +33,14 @@ def move_bot(location, destination, destNo2, dictionary, letter):
 
             if(cy < destination[target][1] and condition < 1):
                 target = 0
-                h1 = str(max(0, min(255, 100 - int((shortestAngle * 5)))))
-                h2 = str(max(0, min(255, 100 + int((shortestAngle * 5)))))
+                h1 = str(max(0, min(255, 120 - int((shortestAngle * 6)))))
+                h2 = str(max(0, min(255, 100 + int((shortestAngle * 6)))))
                 h1 = '0'*(3-len(h1)) + h1
                 h2 = '0'*(3-len(h2)) + h2
                 dictionary['bot2'] = f'1010{h2}{h1}0'
                 print("forward")
 
-            elif(intHeadingDeg < 30 and condition < 2):
+            elif(intHeadingDeg < 75 and condition < 2):
                 dictionary['bot2'] = f'10011101100'
                 print("right-rotate")
                 condition = 1
@@ -85,27 +86,28 @@ def move_bot(location, destination, destNo2, dictionary, letter):
         if(laut_jao == 0):
             if(cy < destination[target][1] and intHeadingDeg < 30 and condition < 1):
                 target = 0
-                h1 = str(max(0, min(255, 100 - int((shortestAngle * 5)))))
+                h1 = str(max(0, min(255, 120 - int((shortestAngle * 5)))))
                 h2 = str(max(0, min(255, 100 + int((shortestAngle * 5)))))
                 h1 = '0'*(3-len(h1)) + h1
                 h2 = '0'*(3-len(h2)) + h2
                 dictionary['bot2'] = f'1010{h2}{h1}0'
                 print("forward", cx, destination[target][0])
 
-            elif(intHeadingDeg > -85  and condition < 2):
+            elif(intHeadingDeg > -70 and condition < 2):
                 dictionary['bot2'] = f'01101101100'
-                print("left-rotate")
+                # print("left-rotate")
+                print("LEFT-ROTATE", cx,"---",cy, destination[target][0])
                 target = 1
                 condition = 1
 
-            elif(cx < destination[target][0] and condition < 3):
+            elif(cx < destination[target][0]-10 and condition < 3):
                 target = 1
                 h1 = str(max(0, min(255, 100 - int((shortestAngle * 2)))))
                 h2 = str(max(0, min(255, 100 + int((shortestAngle * 2)))))
                 h1 = '0'*(3-len(h1)) + h1
                 h2 = '0'*(3-len(h2)) + h2
                 dictionary['bot2'] = f'1010{h2}{h1}0'
-                print("left-move")
+                print("left-move  ",cx, "-- ",destination[target][0]-10 )
                 condition = 2
 
             else:
@@ -116,7 +118,7 @@ def move_bot(location, destination, destNo2, dictionary, letter):
 
         # returning from Chennai Bengaluru , Hyderebad
         else:
-            if(cx > 64  and condition < 4):
+            if(cx > (destination[target][0])  and condition < 4):
                 target = 0
                 if(shortestAngle < 0):
                     shortestAngle += 180
@@ -128,6 +130,9 @@ def move_bot(location, destination, destNo2, dictionary, letter):
                 h2 = '0'*(3-len(h2)) + h2
                 dictionary['bot2'] = f'0101{h2}{h1}0'
                 print("right-move(backward)")
+                print("destination is   ",destination[target][0] )
+
+
                 condition = 3
 
             elif(intHeadingDeg < -10  and condition < 5):
@@ -136,14 +141,14 @@ def move_bot(location, destination, destNo2, dictionary, letter):
                 target = 2
                 condition = 4
 
-            elif(cy > 53  and condition < 6):
+            elif(cy >destination[target][1] and condition < 6):
                 target = 2
                 if(shortestAngle < 0):
                     shortestAngle += 180
                 else:
                     shortestAngle -= 180
-                h1 = str(max(0, min(255, 100 + int((shortestAngle) * 5))))
-                h2 = str(max(0, min(255, 100 - int((shortestAngle) * 5))))
+                h1 = str(max(0, min(255, 100 + int((shortestAngle) * 3))))
+                h2 = str(max(0, min(255, 100 - int((shortestAngle) * 3))))
                 h1 = '0'*(3-len(h1)) + h1
                 h2 = '0'*(3-len(h2)) + h2
                 dictionary['bot2'] = f'0101{h2}{h1}0'
@@ -308,7 +313,7 @@ def move_bot(location, destination, destNo2, dictionary, letter):
                     print("forward-2")
                     condition = 4
 
-                elif(intHeadingDeg <5 and condition < 6):
+                elif(intHeadingDeg <50 and condition < 6):
                     dictionary['bot2'] = f'10011101100'
                     print("right-rotate-2")
                     target = 2
