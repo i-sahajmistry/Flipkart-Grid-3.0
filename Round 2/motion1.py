@@ -293,36 +293,4 @@ def move_bot(location, destination, destNo, dictionary):
                 dictionary['bot1'] = f'10010000000'
                 condition=0
     
-
-            
-            
-
-
-                
-
-
-
-        
-
-        
-
-            
-
-            
-
-
-
-
     return dictionary, destNo
-
-
-
-            
-
-
-
-
-
-
-
-
