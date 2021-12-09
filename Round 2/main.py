@@ -16,22 +16,22 @@ def cvFunc():
     destNo2 = 0
 
     location = {i: [[0, 0] for j in range(5)] for i in range(0, 8)}
-    destination = [{'M': [[833, 160], [830, 50]],
-                    'D':[[833, 330], [830, 50]],
-                    'K':[[843, 500], [830, 50]],
-                    'C':[[833, 160], [820, 190], [830, 50]],
-                    'B':[[833, 330], [820, 360], [830, 50]],
-                    'H':[[833, 500], [800, 530], [830, 50]],
-                    'P':[[834, 95], [504, 110], [508, 174], [830, 50]],
-                    'A':[[834, 95], [504, 110], [508, 337], [830, 50]],
-                    'J':[[834, 95], [504, 110], [508, 512], [830, 50]]},
+    destination = [{'M':[[828,149], [833, 160], [841,40]],
+                    'D':[[827,311], [833, 330], [841,40]],
+                    'K':[[829,477], [843, 500], [841,40]],
+                    'C':[[828,149], [820, 190], [841,40]],
+                    'B':[[827,311], [820, 360], [841,40]],
+                    'H':[[829,477], [800, 530], [841,40]],
+                    'P':[[834, 95], [504, 110], [508, 174], [841,40]],
+                    'A':[[834, 95], [504, 110], [508, 337], [841,40]],
+                    'J':[[834, 95], [504, 110], [508, 512], [841,40]]},
                     
-                    {'P': [[632,151], [631,40]],
-                    'A':[[633,323], [631,40]],
-                    'J':[[633,489], [631,40]],
-                    'C':[[633,151], [679,170], [631,40]],
-                    'B':[[633,323], [676,342], [631,40]],
-                    'H':[[633,489], [680,509], [631,40]],
+                   {'P':[[656,152], [632,151], [631,40]],
+                    'A':[[659,312], [633,323], [631,40]],
+                    'J':[[661,486], [633,489], [631,40]],
+                    'C':[[656,152], [679,170], [631,40]],
+                    'B':[[659,312], [676,342], [631,40]],
+                    'H':[[661,486], [680,509], [631,40]],
                     'M':[[682,262], [853,264], [631,40]],
                     'D':[[683,274], [870,294], [631,40]],
                     'K':[[682,262], [979,294], [980,494], [631,40]]}]
@@ -48,16 +48,17 @@ def cvFunc():
 
         corners = [location[i][4] for i in range(4, 8)]
         frame = warp(frame, corners)
-        print(induct[0][destNo1][1], induct[1][destNo2][1])
+        print("BOT1 -", induct[0][destNo1][1], location[0][4], end=" ")
         dictionary, destNo1 = motion1.move_bot(
-            location, destination[0][induct[0][destNo1][1]], destNo1, dictionary)
+            location, destination[0][induct[0][destNo1][1]], destNo1, dictionary, induct[0][destNo1][1])
 
-        # dictionary, destNo2 = motion2.move_bot(
-        #     location, destination[1][induct[1][destNo2][1]], destNo2, dictionary, induct[1][destNo2][1])
-
+        print("BOT2 -", induct[1][destNo2][1], location[1][4], end=" ")
+        dictionary, destNo2 = motion2.move_bot(
+            location, destination[1][induct[1][destNo2][1]], destNo2, dictionary, induct[1][destNo2][1])
+        print(dictionary)
         collision(location,dictionary,induct[1][destNo2][1])
 
-        print(dictionary, location[0][4], "\n")
+        print(dictionary, "\n")
 
         cv2.imshow('frame', frame)
         cv2.waitKey(1)
@@ -72,7 +73,7 @@ def socketFunc1():
     while True:
         client, addr = s.accept()
         client.settimeout(10)
-        print(dictionary)
+        print("BOT1 - ", dictionary['bot1'])
         client.send(bytes(dictionary['bot1'], encoding='utf8'))
         client.close()
 
@@ -87,7 +88,7 @@ def socketFunc2():
     while True:
         client, addr = s.accept()
         client.settimeout(10)
-        print(dictionary)
+        print("BOT2 - ", dictionary['bot2'])
         client.send(bytes(dictionary['bot2'], encoding='utf8'))
         client.close()
 

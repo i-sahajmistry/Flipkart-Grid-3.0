@@ -2,7 +2,7 @@ import socket
 import cv2 as cv
 import json
 
-ports = [3333, 1239, 1240, 1241]
+ports = [1111, 1239, 1240, 1241]
 s = []
 for i in range(1):
     s.append(socket.socket(socket.AF_INET, socket.SOCK_STREAM))

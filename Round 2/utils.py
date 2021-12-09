@@ -143,7 +143,6 @@ def forward(shortestAngle, dictionary, bot_no, servo):
     h2 = str(max(0, min(255, 100 + int((shortestAngle * 6)))))
     h1 = '0'*(3-len(h1)) + h1
     h2 = '0'*(3-len(h2)) + h2
-    print(dictionary,bot_no,servo,"#####")
     dictionary[f'bot{bot_no}'] = f'1010{h2}{h1}{servo}'
     return dictionary
 
@@ -177,7 +176,6 @@ def displacement(x, y, a, b):
 
 def collision(location,dictionary,letter):
     distance=displacement(location[0][4][0],location[0][4][1],location[1][4][0],location[1][4][1])
-    print(distance, "****")
     if(distance>100):
         return
 
