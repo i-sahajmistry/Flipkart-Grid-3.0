@@ -9,7 +9,7 @@ width = 750
 (centerX, centerY) = (width // 2, height // 2)
 
 def read_data():
-    df = pd.read_csv('/home/i_sahajmistry/Documents/Robosapians/Round 2/dat.csv', usecols=['Induct Station', 'Destination'])
+    df = pd.read_csv('//home/i_sahajmistry/Robosapians/Round 2/dat.csv', usecols=['Induct Station', 'Destination'])
     induct = [np.array(df[:141]), np.array(df[141:])]
     return induct
 
@@ -138,6 +138,38 @@ def getAngle(location, destination, laut_jao):
 
     return [shortestAngle, intHeading]
 
+def forward(shortestAngle, dictionary, bot_no, servo):
+    h1 = str(max(0, min(255, 100 - int((shortestAngle * 6)))))
+    h2 = str(max(0, min(255, 100 + int((shortestAngle * 6)))))
+    h1 = '0'*(3-len(h1)) + h1
+    h2 = '0'*(3-len(h2)) + h2
+    print(dictionary,bot_no,servo,"#####")
+    dictionary[f'bot{bot_no}'] = f'1010{h2}{h1}{servo}'
+    return dictionary
+
+def backward(shortestAngle, dictionary, bot_no, servo):
+    if(shortestAngle < 0):
+        shortestAngle += 180
+    else:
+        shortestAngle -= 180
+    h2 = str(max(0, min(255, 100 - int((shortestAngle) * 6))))
+    h1 = str(max(0, min(255, 100 + int((shortestAngle) * 6))))
+    h1 = '0'*(3-len(h1)) + h1
+    h2 = '0'*(3-len(h2)) + h2
+    dictionary[f'bot{bot_no}'] = f'0101{h2}{h1}{servo}'
+    return dictionary
+
+def anticlockwise(dictionary, bot_no, servo):
+    dictionary[f'bot{bot_no}'] = f'0110180110{servo}'
+    return dictionary
+
+def clockwise(dictionary, bot_no, servo):
+    dictionary[f'bot{bot_no}'] = f'1001180100{servo}'
+    return dictionary
+
+def pause(dictionary, bot_no, servo):
+    dictionary[f'bot{bot_no}'] = f'1010000000{servo}'
+    return dictionary
 
 def displacement(x, y, a, b):
     disp = abs(((x - a) ** 2 + (y - b) ** 2) ** (1 / 2))

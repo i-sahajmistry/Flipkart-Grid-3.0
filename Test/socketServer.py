@@ -2,7 +2,7 @@ import socket
 import cv2 as cv
 import json
 
-ports = [2222, 1239, 1240, 1241]
+ports = [3333, 1239, 1240, 1241]
 s = []
 for i in range(1):
     s.append(socket.socket(socket.AF_INET, socket.SOCK_STREAM))
@@ -17,7 +17,7 @@ while True:
         client, addr = s[i].accept()
         # client.settimeout(200)
 
-        with open('/home/neeraj/Robosapians/Test/data.json', 'r') as file:
+        with open('/home/i_sahajmistry/Robosapians/Test/data.json', 'r') as file:
             data = file.read()
             try:
                 y = json.loads(data)

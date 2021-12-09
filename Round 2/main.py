@@ -52,8 +52,8 @@ def cvFunc():
         dictionary, destNo1 = motion1.move_bot(
             location, destination[0][induct[0][destNo1][1]], destNo1, dictionary)
 
-        dictionary, destNo2 = motion2.move_bot(
-            location, destination[1][induct[1][destNo2][1]], destNo2, dictionary, induct[1][destNo2][1])
+        # dictionary, destNo2 = motion2.move_bot(
+        #     location, destination[1][induct[1][destNo2][1]], destNo2, dictionary, induct[1][destNo2][1])
 
         collision(location,dictionary,induct[1][destNo2][1])
 
