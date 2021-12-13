@@ -9,7 +9,7 @@ width = 750
 (centerX, centerY) = (width // 2, height // 2)
 
 def read_data():
-    df = pd.read_csv('/home/neeraj/Robosapians/Round 2/dat.csv', usecols=['Induct Station', 'Destination'])
+    df = pd.read_csv('//home/i_sahajmistry/Robosapians/Round 2/dat.csv', usecols=['Induct Station', 'Destination'])
     induct = [np.array(df[:141]), np.array(df[141:])]
     return induct
 
@@ -127,32 +127,71 @@ def getAngle(location, destination, laut_jao):
         rads = atan2(dx, -dy)
         degs = degrees(rads) + 180
 
-    # if center[0]>tX and center[1]<tY:
-    #     rads=atan2(center[0]-tX,tY-center[1])
-    #     degs=degrees(rads)
-    
-    # elif center[0]<tX and center[1]<tY:
-    #     rads=atan2(tX-center[0],tY-center[1])
-    #     degs=degrees(rads)
-    # elif center[0]<tX and center[1]>tY:
-    #     rads=atan2(tX-center[0],center[1]-tY)
-    #     degs=degrees(rads)
-    # else:
-    #     rads=atan2(center[0]-tX,center[1]-tY)
-    #     degs=degrees(rads)
-
-
     if degs > 180:
         degs = degs-360
-
-    # print("degrees-> ",degs)
-    # print("Tx ",tX,"TY", tY,"centre 0" ,center[0], "center 1", center[1])
 
     shortestAngle = degs - intHeadingDeg
     if shortestAngle > 180:
         shortestAngle -= 360
     elif shortestAngle < -180:
         shortestAngle += 360
-    # print(shortestAngle)
 
     return [shortestAngle, intHeading]
+
+def forward(shortestAngle, dictionary, bot_no, servo):
+    h1 = str(max(0, min(255, 100 - int((shortestAngle * 6)))))
+    h2 = str(max(0, min(255, 100 + int((shortestAngle * 6)))))
+    h1 = '0'*(3-len(h1)) + h1
+    h2 = '0'*(3-len(h2)) + h2
+    dictionary[f'bot{bot_no}'] = f'1010{h2}{h1}{servo}'
+    return dictionary
+
+def backward(shortestAngle, dictionary, bot_no, servo):
+    if(shortestAngle < 0):
+        shortestAngle += 180
+    else:
+        shortestAngle -= 180
+    h2 = str(max(0, min(255, 100 - int((shortestAngle) * 6))))
+    h1 = str(max(0, min(255, 100 + int((shortestAngle) * 6))))
+    h1 = '0'*(3-len(h1)) + h1
+    h2 = '0'*(3-len(h2)) + h2
+    dictionary[f'bot{bot_no}'] = f'0101{h2}{h1}{servo}'
+    return dictionary
+
+def anticlockwise(dictionary, bot_no, servo):
+    dictionary[f'bot{bot_no}'] = f'0110180110{servo}'
+    return dictionary
+
+def clockwise(dictionary, bot_no, servo):
+    dictionary[f'bot{bot_no}'] = f'1001180100{servo}'
+    return dictionary
+
+def pause(dictionary, bot_no, servo):
+    dictionary[f'bot{bot_no}'] = f'1010000000{servo}'
+    return dictionary
+
+def displacement(x, y, a, b):
+    disp = abs(((x - a) ** 2 + (y - b) ** 2) ** (1 / 2))
+    return disp
+
+def collision(location,dictionary,letter):
+    distance=displacement(location[0][4][0],location[0][4][1],location[1][4][0],location[1][4][1])
+    if(distance>100):
+        return
+
+    if(letter in ['M','D','K']):
+        dist1=displacement(location[0][4][0],location[0][4][1], 833, 264)
+        dist2=displacement(location[1][4][0],location[1][4][1], 833, 264)
+        if(dist1>dist2):
+            dictionary['bot1'] = f'10010000000'
+        else:
+            dictionary['bot2'] = f'10010000000'
+
+    else:
+        dist1=displacement(location[0][4][0],location[0][4][1], 630, 120)
+        dist2=displacement(location[1][4][0],location[1][4][1], 630, 120)
+        if(dist1>dist2):
+            dictionary['bot1'] = f'10010000000'
+        else:
+            dictionary['bot2'] = f'10010000000'    
+
