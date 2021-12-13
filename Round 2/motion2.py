@@ -31,28 +31,28 @@ def move_bot(location, destination, destNo2, dictionary, letter):
                 print("forward")
                 target = 0
 
-            elif(intHeadingDeg < 80 and condition < 2 and letter in ['P', 'A', 'J']):
+            elif(intHeadingDeg < 50 and condition < 2 and letter in ['P', 'A', 'J']):
                 dictionary = clockwise(dictionary, 2, 0)
                 print("clockwise")
                 target = 1
                 condition = 1
 
-            elif(intHeadingDeg > -80 and condition < 2 and letter in ['C', 'B', 'H']):
+            elif(intHeadingDeg > -20 and condition < 2 and letter in ['C', 'B', 'H']):
                 dictionary = anticlockwise(dictionary, 2, 0)
                 print("anticlockwise")
                 target = 1
                 condition = 1
 
-            elif(cx > destination[target][0]-10 and condition < 3 and letter in ['P', 'A', 'J']):
+            elif(cx > destination[target][0] and condition < 3 and letter in ['P', 'A', 'J']):
                 target = 1
                 dictionary = forward(shortestAngle, dictionary, 2, 0)
-                print("forward-1")
+                print("RIGHT-forward-1")
                 condition = 2
 
-            elif(cx < destination[target][0]-10 and condition < 3 and letter in ['C', 'B', 'H']):
+            elif(cx < destination[target][0] and condition < 3 and letter in ['C', 'B', 'H']):
                 target = 1
                 dictionary = forward(shortestAngle, dictionary, 2, 0)
-                print("forward-1")
+                print("LEFT-forward-1")
                 condition = 2
 
             else:
