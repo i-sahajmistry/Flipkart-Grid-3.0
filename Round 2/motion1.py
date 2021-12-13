@@ -36,7 +36,7 @@ def move_bot(location, destination, destNo, dictionary, letter):
                 target = 1
                 condition = 1
 
-            elif(intHeadingDeg > -80 and condition < 2 and letter in ['M', 'D', 'K']):
+            elif(intHeadingDeg > -30 and condition < 2 and letter in ['M', 'D', 'K']):
                 dictionary = anticlockwise(dictionary, 1, 0)
                 print("anticlockwise")
                 target = 1
@@ -45,13 +45,13 @@ def move_bot(location, destination, destNo, dictionary, letter):
             elif(cx < destination[target][0] and condition < 3 and letter in ['C', 'B', 'H']):
                 target = 1
                 dictionary = forward(shortestAngle, dictionary, 1, 0)
-                print("forward-1")
+                print("RIGHT-forward-1")
                 condition = 2
 
             elif(cx < destination[target][0] and condition < 3 and letter in ['M', 'D', 'K']):
                 target = 1
                 dictionary = forward(shortestAngle, dictionary, 1, 0)
-                print("forward-1")
+                print("LEFT-forward-1")
                 condition = 2
 
             else:
@@ -65,13 +65,13 @@ def move_bot(location, destination, destNo, dictionary, letter):
             if(cx > (destination[target][0])  and condition < 4 and letter in ['C', 'B', 'H']):
                 target = 0
                 dictionary = backward(shortestAngle, dictionary, 1, 1)
-                print("backward-1")
+                print("LEFT-backward-1")
                 condition = 3
 
             elif(cx < (destination[target][0])  and condition < 4 and letter in ['M', 'D', 'K']):
                 target = 0
                 dictionary = backward(shortestAngle, dictionary, 1, 1)
-                print("backward-1")
+                print("RIGHT-backward-1")
                 condition = 3
 
             elif(intHeadingDeg > 10  and condition < 5 and letter in ['C', 'B', 'H']):
