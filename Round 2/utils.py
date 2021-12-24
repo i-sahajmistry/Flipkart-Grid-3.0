@@ -7,10 +7,15 @@ from math import atan2, degrees
 height = 750
 width = 750
 (centerX, centerY) = (width // 2, height // 2)
+flag = 0
+colDict = []
 
 def read_data():
-    df = pd.read_csv('//home/neeraj/Robosapians/Round 2/dat.csv', usecols=['Induct Station', 'Destination'])
-    induct = [np.array(df[:141]), np.array(df[141:])]
+    df = pd.read_csv('/home/i_sahajmistry/Robosapians/Round 2/bot1.csv', usecols=['Induct Station', 'Destination'])
+    induct = [np.array(df)]
+    df = pd.read_csv('/home/i_sahajmistry/Robosapians/Round 2/bot2.csv', usecols=['Induct Station', 'Destination'])
+    induct.append(np.array(df))
+    
     return induct
 
 def detectMarker(img, location, markerSize=4, totalMarker=50, draw=True):
@@ -138,32 +143,13 @@ def getAngle(location, destination, laut_jao):
 
     return [shortestAngle, intHeading]
 
-def forward(shortestAngle, dictionary, bot_no, servo):
-    h1 = str(max(0, min(255, 150 - int((shortestAngle * 4)))))
-    h2 = str(max(0, min(255, 100 + int((shortestAngle * 4)))))
-    h1 = '0'*(3-len(h1)) + h1
-    h2 = '0'*(3-len(h2)) + h2
-    dictionary[f'bot{bot_no}'] = f'1010{h2}{h1}{servo}'
-    return dictionary
-
-def backward(shortestAngle, dictionary, bot_no, servo):
-    if(shortestAngle < 0):
-        shortestAngle += 180
-    else:
-        shortestAngle -= 180
-    h2 = str(max(0, min(255, 100 - int((shortestAngle) * 4))))
-    h1 = str(max(0, min(255, 100 + int((shortestAngle) * 4))))
-    h1 = '0'*(3-len(h1)) + h1
-    h2 = '0'*(3-len(h2)) + h2
-    dictionary[f'bot{bot_no}'] = f'0101{h2}{h1}{servo}'
-    return dictionary
 
 def anticlockwise(dictionary, bot_no, servo):
-    dictionary[f'bot{bot_no}'] = f'0110125110{servo}'
+    dictionary[f'bot{bot_no}'] = f'0110120120{servo}'
     return dictionary
 
 def clockwise(dictionary, bot_no, servo):
-    dictionary[f'bot{bot_no}'] = f'100125100{servo}'
+    dictionary[f'bot{bot_no}'] = f'1001120120{servo}'
     return dictionary
 
 def pause(dictionary, bot_no, servo):
@@ -175,23 +161,33 @@ def displacement(x, y, a, b):
     return disp
 
 def collision(location,dictionary,letter):
+    global flag, colDict
     distance=displacement(location[0][4][0],location[0][4][1],location[1][4][0],location[1][4][1])
     if(distance>100):
+        flag = 0
         return
 
+    if flag:
+        dictionary[colDict[0]] = colDict[1]
+
+    flag = 1
     if(letter in ['M','D','K']):
         dist1=displacement(location[0][4][0],location[0][4][1], 833, 264)
         dist2=displacement(location[1][4][0],location[1][4][1], 833, 264)
         if(dist1>dist2):
             dictionary['bot1'] = f'10010000000'
+            colDict = ['bot1', dictionary['bot1']]
         else:
             dictionary['bot2'] = f'10010000000'
+            colDict = ['bot2', dictionary['bot2']]
 
     else:
         dist1=displacement(location[0][4][0],location[0][4][1], 630, 120)
         dist2=displacement(location[1][4][0],location[1][4][1], 630, 120)
         if(dist1>dist2):
             dictionary['bot1'] = f'10010000000'
+            colDict = ['bot1', dictionary['bot1']]
         else:
             dictionary['bot2'] = f'10010000000'    
+            colDict = ['bot2', dictionary['bot2']]
 
