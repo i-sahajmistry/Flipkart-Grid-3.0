@@ -163,7 +163,7 @@ def displacement(x, y, a, b):
 def collision(location,dictionary,letter):
     global flag, colDict
     distance=displacement(location[0][4][0],location[0][4][1],location[1][4][0],location[1][4][1])
-    if(distance>100):
+    if(distance>125):
         flag = 0
         return
 
