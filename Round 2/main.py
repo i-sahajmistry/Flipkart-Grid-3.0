@@ -39,7 +39,7 @@ def cvFunc():
                     'D':[[690,246], [940,265], [635,24]],
                     'K':[[690,246], [1034,250], [1015,499], [635,24]]}]
 
-    vid = cv2.VideoCapture(0)
+    vid = cv2.VideoCapture(2)
     vid.set(3, 1420)
     vid.set(4, 800)
     then = time.time()
@@ -51,7 +51,7 @@ def cvFunc():
             frame, location, markerSize=4, totalMarker=50, draw=True)
 
         corners = [location[i][4] for i in range(4, 8)]
-        frame = warp(frame, corners)
+        #frame = warp(frame, corners)
         print("BOT1 -", induct[0][destNo1][1], location[port[0]][4], end=" ")
         dictionary, destNo1 = motion1.move_bot(
             location, destination[0][induct[0][destNo1][1]], destNo1, dictionary, induct[0][destNo1][1], port[0])
