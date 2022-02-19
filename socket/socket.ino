@@ -45,7 +45,7 @@ void setup()
     Serial.begin(250000);
     Serial.println("Connecting...\n");
     WiFi.mode(WIFI_STA);
-    WiFi.begin("WIFI", "123456789"); 
+    WiFi.begin("WIFIA", "123456789"); 
     while (WiFi.status() != WL_CONNECTED)
     {
         delay(200);
