@@ -1,8 +1,13 @@
-import pandas as pd
+import csv
+import os
+from math import atan2, degrees
+
 import cv2
 import cv2.aruco as aruco
 import numpy as np
-from math import atan2, degrees
+import pandas as pd
+
+from config.definitions import ROOT_DIR
 
 height = 750
 width = 750
@@ -11,12 +16,12 @@ flag = 0
 colDict = []
 
 def read_data():
-    df = pd.read_csv('/home/i_sahajmistry/Robosapians/Round 2/bot1.csv')
+    df = pd.read_csv('os.path.join(ROOT_DIR, 'csv', 'bot1.csv')
     columns_titles = ["Induct Station", "Destination", "Shipment"]
     df=df.reindex(columns=columns_titles)
     induct = [np.array(df)]
     # induct=np.array(induct)
-    df = pd.read_csv('/home/i_sahajmistry/Robosapians/Round 2/bot2.csv', usecols=['Induct Station', 'Destination','Shipment'])
+    df = pd.read_csv('os.path.join(ROOT_DIR, 'csv', 'bot2.csv')
     df=df.reindex(columns=columns_titles)
     induct.append(np.array(df))
     # print(induct)    

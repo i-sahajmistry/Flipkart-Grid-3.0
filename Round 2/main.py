@@ -56,7 +56,7 @@ def cvFunc():
         cv2.putText(frame,induct[0][destNo1][2],(location[0][4][0], location[0][4][1]), font, 1.0, (0,0,0),3 )
         cv2.putText(frame,induct[1][destNo2][2],(location[1][4][0], location[1][4][1]), font, 0.8, (0,0,0),3 )
         corners = [location[i][4] for i in range(4, 8)]
-        frame = warp(frame, corners)
+        #frame = warp(frame, corners)
         print("BOT1 -", induct[0][destNo1][1], location[port[0]][4], end=" ")
         if location[port[0]][4]<600:
             newBotEntry = 1
