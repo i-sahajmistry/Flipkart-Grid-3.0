@@ -14,7 +14,7 @@ checkStop = []
 servo = 0
 servoTime = 0
 w, wx, wy = 0, 0, 0
-t = 0
+
 goupto = {'P': 140, 'A':320 ,'J':497, 'C':130, 'B':300, 'H':477 }
 
 def move_bot(location, destination, destNo2, dictionary, letter, port):
