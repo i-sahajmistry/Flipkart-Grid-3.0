@@ -11,10 +11,15 @@ flag = 0
 colDict = []
 
 def read_data():
-    df = pd.read_csv('/home/i_sahajmistry/Robosapians/Round 2/bot1.csv', usecols=['Induct Station', 'Destination'])
+    df = pd.read_csv('/home/i_sahajmistry/Robosapians/Round 2/bot1.csv')
+    columns_titles = ["Induct Station", "Destination", "Shipment"]
+    df=df.reindex(columns=columns_titles)
     induct = [np.array(df)]
-    df = pd.read_csv('/home/i_sahajmistry/Robosapians/Round 2/bot2.csv', usecols=['Induct Station', 'Destination'])
+    # induct=np.array(induct)
+    df = pd.read_csv('/home/i_sahajmistry/Robosapians/Round 2/bot2.csv', usecols=['Induct Station', 'Destination','Shipment'])
+    df=df.reindex(columns=columns_titles)
     induct.append(np.array(df))
+    # print(induct)    
     
     return induct
 
