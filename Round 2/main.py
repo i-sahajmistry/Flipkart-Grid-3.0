@@ -67,9 +67,6 @@ def cvFunc():
 
         dictionary, destNo1 = motion1.move_bot(
         location, destination[0][induct[0][destNo1][1]], destNo1, dictionary, induct[0][destNo1][1], port[0], destination, newBotEntry)
-        now = time.time()
-        print(now - then)
-
 
         if location[port[1]][4]<600:
             newBotEntry = 1
