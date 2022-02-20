@@ -5,7 +5,7 @@ WiFiClient client;
 
 Servo myMotor;
 
-const uint16_t port = 2222;
+const uint16_t port = 1111;
 const char *host = "10.42.0.1";
 
 const int n = 6;
@@ -45,7 +45,7 @@ void setup()
     Serial.begin(250000);
     Serial.println("Connecting...\n");
     WiFi.mode(WIFI_STA);
-    WiFi.begin("Anthrax-Inspiron-5580", "x8XDXYnq"); 
+    WiFi.begin("WIFIA", "123456789"); 
     while (WiFi.status() != WL_CONNECTED)
     {
         delay(200);
