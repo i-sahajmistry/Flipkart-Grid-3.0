@@ -168,7 +168,7 @@ def displacement(x, y, a, b):
 def collision(location,dictionary,letter):
     global flag, colDict
     distance=displacement(location[0][4][0],location[0][4][1],location[1][4][0],location[1][4][1])
-    if(distance>125):
+    if(distance>130):
         flag = 0
         return
 
@@ -187,8 +187,8 @@ def collision(location,dictionary,letter):
             colDict = ['bot2', dictionary['bot2']]
 
     else:
-        dist1=displacement(location[0][4][0],location[0][4][1], 630, 120)
-        dist2=displacement(location[1][4][0],location[1][4][1], 630, 120)
+        dist1=displacement(location[0][4][0],location[0][4][1], 670, 79)
+        dist2=displacement(location[1][4][0],location[1][4][1], 670, 79)
         if(dist1>dist2):
             dictionary['bot1'] = f'10010000000'
             colDict = ['bot1', dictionary['bot1']]
