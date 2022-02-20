@@ -16,11 +16,55 @@ w, wx, wy = 0, 0, 0
 t = 0
 goupto = {'M': 130, 'D':300 ,'K':487, 'C':130, 'B':300, 'H':487, 'P':300, 'A': 320, 'J':495 }
 
-def move_bot(location, destination, destNo, dictionary, letter, port, allDestinations):
+def move_bot(location, destination, destNo, dictionary, letter, port, allDestinations, newBotEntry):
     global stop, then, s, laut_jao,  target, condition, checkStop, wall, sec, servo, servoTime, wx, wy, w, t
     cx, cy = location[port][4]
     shortestAngle, intHeadingDeg = getAngle(location[port], destination[target], laut_jao)
-    
+
+    if(newBotEntry==1):
+        if((port==2 or port ==3) and newBotEntry==1):
+
+            if(cy > goupto['M'] + 60):
+                target = 2
+                shortestAngle, intHeadingDeg = getAngle(location[port], allDestinations[0]['M'][0], laut_jao)
+                if(shortestAngle < 0):
+                    shortestAngle += 180
+                else:
+                    shortestAngle -= 180
+                h2 = str(max(0, min(255, 190 - int(shortestAngle * 9))))
+                h1 = str(max(0, min(255, 190 + int(shortestAngle * 9))))
+                h1 = '0'*(3-len(h1)) + h1
+                h2 = '0'*(3-len(h2)) + h2
+                dictionary['bot1'] = f'0101{h2}{h1}{servo}'
+                print("backward to IS 1")
+                condition = 5
+
+            elif(cy > 27  and condition < 6):
+                target = 2
+                if(shortestAngle < 0):
+                    shortestAngle += 180
+                else:
+                    shortestAngle -= 180
+                h2 = str(max(0, min(255, 190 - int(shortestAngle * 4))))
+                h1 = str(max(0, min(255, 190 + int(shortestAngle * 4))))
+                h1 = '0'*(3-len(h1)) + h1
+                h2 = '0'*(3-len(h2)) + h2
+                dictionary['bot1'] = f'0101{h2}{h1}{servo}'
+                print("backward to IS 1")
+                condition = 5
+
+            else:
+                laut_jao = 0
+                stop = 1
+                destNo = destNo+1
+                target = 0
+                dictionary = pause(dictionary, 1, servo)
+                condition = 0
+                newBotEntry=0
+
+
+
+
     if stop == 1:
         now = time.time()
         if s == 0:
