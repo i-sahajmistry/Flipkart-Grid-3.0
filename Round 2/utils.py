@@ -65,8 +65,8 @@ def warp(frame, corners):
 def getSpeeds(target, destination, postiton):
     dist = displacement(destination[target][0], destination[target][1], postiton[0], postiton[1])
     print(dist)
-    h1 = int(max(min(100, dist//2.3), 40))
-    h2 = int(max(min(100, dist//2.3), 40))
+    h1 = int(max(min(100, dist//1), 40))
+    h2 = int(max(min(100, dist//1), 40))
     return h1, h2
 
 
