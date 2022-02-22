@@ -19,9 +19,9 @@ def cvFunc():
 
     location = {i: [[0, 0] for j in range(5)] for i in range(0, 8)}
     destination = [{
-                    'M':[[1053,171], [1071, 241], [870,20]],
-                    'D':[[1058,388], [1075, 462], [855,20]],
-                    'K':[[1059,619], [1079, 695], [855,20]],
+                    'M':[[1053,171], [1060, 241], [1080,35]],
+                    'D':[[1058,388], [1060, 462], [1080,35]],
+                    'K':[[1059,619], [1060, 695], [1080,35]],
                     'C':[[1053,171], [1035, 239], [865,20]],
                     'B':[[855,322], [848, 333], [865,20]],
                     'H':[[855,495], [853, 506], [865,20]],
@@ -99,7 +99,7 @@ def cvFunc():
 
 def socketFunc1():
     global dictionary, startTime
-    port = 1111
+    port = 2222
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind(('0.0.0.0', port))
     s.listen(0)
@@ -116,7 +116,7 @@ def socketFunc1():
 
 def socketFunc2():
     global dictionary, startTime
-    port = 2222
+    port = 1111
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind(('0.0.0.0', port))
     s.listen(0)
