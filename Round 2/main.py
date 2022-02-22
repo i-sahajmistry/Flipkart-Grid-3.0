@@ -40,7 +40,7 @@ def cvFunc():
                     'D':[[832,270], [1128,353], [807,36]],
                     'K':[[832,270], [1199,344], [1279,647], [807,36]]}]
 
-    vid = cv2.VideoCapture(2)
+    vid = cv2.VideoCapture(1)
     vid.set(3, 1420)
     vid.set(4, 1420)
 
