@@ -18,13 +18,11 @@ def cvFunc():
     newBotEntry = 0
 
     location = {i: [[0, 0] for j in range(5)] for i in range(0, 8)}
-    # print(location[0][4][0])
-    # print(induct[1][0][2])
     destination = [{
-                    'M':[[855,144], [870, 167], [870,20]],
-                    'D':[[855,322], [865, 343], [855,20]],
-                    'K':[[855,495], [868, 516], [855,20]],
-                    'C':[[855,144], [845, 155], [865,20]],
+                    'M':[[1053,171], [1071, 241], [870,20]],
+                    'D':[[1058,388], [1075, 462], [855,20]],
+                    'K':[[1059,619], [1079, 695], [855,20]],
+                    'C':[[1053,171], [1035, 239], [865,20]],
                     'B':[[855,322], [848, 333], [865,20]],
                     'H':[[855,495], [853, 506], [865,20]],
                     'P':[[855, 71], [635, 90], [880,25]],
@@ -53,8 +51,8 @@ def cvFunc():
             frame, location, markerSize=4, totalMarker=50, draw=True)
 
         font = cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(frame,induct[0][destNo1][2],(location[0][4][0], location[0][4][1]), font, 1.0, (0,0,0),3 )
-        cv2.putText(frame,induct[1][destNo2][2],(location[1][4][0], location[1][4][1]), font, 0.8, (0,0,0),3 )
+        cv2.putText(frame,induct[0][destNo1][2],(location[0][4][0], location[0][4][1]), font, 0.7, (0,0,0),3 )
+        cv2.putText(frame,induct[1][destNo2][2],(location[1][4][0], location[1][4][1]), font, 0.7, (0,0,0),3 )
         corners = [location[i][4] for i in range(4, 8)]
         frame = warp(frame, corners)
         print("BOT1 -", induct[0][destNo1][1], location[port[0]][4], end=" ")
@@ -93,9 +91,6 @@ def cvFunc():
         else:
             text = 'Time: 00:00'
         cv2.putText(frame,text, (500, 65), font, 1.0, (0, 0, 0), 3) # add text on frame
-        # cv2.putText(frame,text, (600, 165), font, 1.0, (0, 0, 0), 3) # add text on frame
-        # loc1 = (location[1][4][0], location[1][4][1])
-        # print(loc1)
         print(dictionary, "\n")
 
         cv2.imshow('frame', frame)

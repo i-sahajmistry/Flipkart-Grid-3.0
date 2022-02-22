@@ -22,7 +22,7 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
     cx, cy = position
     shortestAngle, intHeadingDeg = getAngle(location[port], destination[target], laut_jao)
 
-
+    
     if stop == 1:
         now = time.time()
         if s == 0:
