@@ -14,21 +14,21 @@ def cvFunc():
     induct = read_data()
     destNo1 = 0
     destNo2 = 0
-    port = [1,0]
+    port = [0,1]
     newBotEntry = [0, 0]
 
 
     location = {i: [[0, 0] for j in range(5)] for i in range(0, 8)}
     destination = [{
-                    'M':[[1090,220], [1060, 241], [1080,35]],
+                    'M':[[1080,220], [1060, 241], [1080,35]],
                     'D':[[1050,438], [1060, 462], [1080,35]],
                     'K':[[1050,669], [1060, 695], [1080,35]],
-                    'C':[[1053,171], [1035, 239], [865,20]],
-                    'B':[[855,322], [848, 333], [865,20]],
-                    'H':[[855,495], [853, 506], [865,20]],
-                    'P':[[855, 71], [635, 90], [880,25]],
-                    'A':[[855, 71], [495, 100], [495, 325], [880,25]],
-                    'J':[[855, 71], [495, 100], [495, 507], [880,25]]},
+                    'C':[[1080,220], [1045, 247], [1080,35]],
+                    'B':[[1050,438], [1045, 478], [1080,35]],
+                    'H':[[1050,669], [1045, 702], [1080,35]],
+                    'P':[[1079,124], [737,133], [1080,35]],
+                    'A':[[1079,124], [614,140], [615,444], [1080,35]],
+                    'J':[[1079,124], [614,140], [615,675], [1080,35]]},
                     
                    {
                     'P':[[840,178], [824,249], [807,36]],
@@ -58,17 +58,19 @@ def cvFunc():
         frame = warp(frame, corners)
         print("BOT1 -", induct[0][destNo1][1], location[port[0]][4], end=" ")
         
-        if 10<location[port[0]][4][0]<600:
+        if 10<location[port[0]][4][0]<500:
             newBotEntry[0] = 1
             if(port[0]==0 and port[1]!=1):
                 port[0]=1
+
+
             else:
                 port[0]=0
 
         dictionary, destNo1, newBotEntry[0] = motion1.move_bot(
         location, destination[0][induct[0][destNo1][1]], destNo1, dictionary, induct[0][destNo1][1], port[0], destination, newBotEntry[0])
 
-        if 10<location[port[1]][4][0]<600:
+        if 10<location[port[1]][4][0]<500:
             newBotEntry[1] = 1
             if(port[1]==1 and port[0]!=0):
                 port[1]=0
@@ -101,7 +103,7 @@ def cvFunc():
 
 def socketFunc1():
     global dictionary, startTime
-    port = 2222
+    port = 4444
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind(('0.0.0.0', port))
     s.listen(0)
@@ -112,13 +114,13 @@ def socketFunc1():
             startTime = time.time()
         client.settimeout(10)
         # print("BOT1 - ", dictionary['bot1'])
-        client.send(bytes(dictionary['bot1'], encoding='utf8'))
+        client.send(bytes(dictionary['bot0'], encoding='utf8'))
         client.close()
 
 
 def socketFunc2():
     global dictionary, startTime
-    port = 1111
+    port = 2222
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind(('0.0.0.0', port))
     s.listen(0)
@@ -129,7 +131,7 @@ def socketFunc2():
             startTime = time.time()
         client.settimeout(10)
         # print("BOT2 - ", dictionary['bot2'])
-        client.send(bytes(dictionary['bot0'], encoding='utf8'))
+        client.send(bytes(dictionary['bot1'], encoding='utf8'))
         client.close()
 
 
