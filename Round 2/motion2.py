@@ -13,13 +13,14 @@ checkStop = []
 servo = 0
 servoTime = 0
 secondReplce = 0
+conditionReplace=0
 
 w, wx, wy = 0, 0, 0
 
-goupto = {'P': 155, 'A':390 ,'J':613, 'C':130, 'B':300, 'H':477 }
+goupto = {'P': 165, 'A':400 ,'J':613, 'C':130, 'B':300, 'H':477 }
 
 def move_bot(location, destination, destNo2, dictionary, letter, port, allDestinations, newBotEntry):
-    global stop, then, s, laut_jao, target, condition, sec, wall, checkStop, servo, servoTime, w, wx, wy, t, secondReplce
+    global stop, then, s, laut_jao, target, condition, sec, wall, checkStop, servo, servoTime, w, wx, wy, t, secondReplce, conditionReplace
     position = location[port][4]
     cx, cy = position
     shortestAngle, intHeadingDeg = getAngle(location[port], destination[target], laut_jao)
@@ -34,12 +35,14 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                 
         if(port!=1 and secondReplce!=2):
           
-            if(intHeadingDeg > -40 ):
+            if(intHeadingDeg > -40 and conditionReplace<1):
                 print("anticlockwise-1")
                 dictionary[f'bot{port}'] = f'0110110110{servo}'
                 target = 0
+                conditionReplace = 0
+
            
-            elif(cx > 770 and condition < 6):
+            elif(cx > 770 and conditionReplace<2):
                 target = 0
                 if(shortestAngle < 0):
                     shortestAngle += 180
@@ -52,11 +55,15 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                 h2 = '0'*(3-len(h2)) + h2
                 dictionary[f'bot{port}'] = f'0101{h2}{h1}{servo}'
                 print("backward-1")
+                conditionReplace = 1
 
-            elif(intHeadingDeg > -100):
+
+            elif(intHeadingDeg > -100 and conditionReplace<3):
                 dictionary[f'bot{port}'] = f'1001110110{servo}'
                 print("clockwise-1")
                 target = 0
+                conditionReplace = 2
+
 
             else:
                 secondReplce=2
@@ -98,8 +105,13 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                 stop = 1
                 destNo2 = destNo2+1
                 target = 0
-                dictionary = pause(dictionary, 2, servo)
+                dictionary = pause(dictionary, port, servo)
                 secondReplce=0
+                conditionReplace=0
+                newBotEntry=0
+                condition=0
+
+
    
 
 # //***********************************************************************************************************************//
@@ -175,7 +187,7 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                 condition = 2
 
             else:
-                dictionary = pause(dictionary, 2, 1)
+                dictionary = pause(dictionary, port, 1)
                 servo = 1
                 servoTime = time.time()
                 laut_jao = 1
@@ -232,8 +244,8 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                     shortestAngle -= 180
                 print(shortestAngle, "👀👀👀👀")
                 h1, h2 = getSpeeds(target, destination, position)
-                h1 = str(max(0, min(180, h1 + int(shortestAngle * 0))))
-                h2 = str(max(0, min(180, h2 - int(shortestAngle * 0))))
+                h1 = str(max(0, min(180, h1 + int(shortestAngle * 4))))
+                h2 = str(max(0, min(180, h2 - int(shortestAngle * 4))))
                 
                 h1 = '0'*(3-len(h1)) + h1
                 h2 = '0'*(3-len(h2)) + h2
@@ -248,8 +260,8 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                 else:
                     shortestAngle -= 180
                 h1, h2 = getSpeeds(target, destination, position)
-                h1 = str(max(0, min(150, h1 + int(shortestAngle * 0))))
-                h2 = str(max(0, min(180, h2 - int(shortestAngle * 0))))
+                h1 = str(max(0, min(150, h1 + int(shortestAngle * 3))))
+                h2 = str(max(0, min(180, h2 - int(shortestAngle * 3))))
                 h1 = '0'*(3-len(h1)) + h1
                 h2 = '0'*(3-len(h2)) + h2
                 dictionary[f'bot{port}'] = f'0101{h2}{h1}{servo}'
@@ -261,7 +273,7 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                 stop = 1
                 destNo2 = destNo2+1
                 target = 0
-                dictionary = pause(dictionary, 2, servo)
+                dictionary = pause(dictionary, port, servo)
                 condition = 0
    
     # code for going to mumbai, delhi   
@@ -329,7 +341,7 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                 else:
                     servo = 1
                     servoTime = time.time()
-                    dictionary = pause(dictionary, 2, servo)
+                    dictionary = pause(dictionary, port, servo)
                     laut_jao = 1
                     condition = 3
 
@@ -392,7 +404,7 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                     stop = 1
                     target = 0
                     destNo2 = destNo2+1
-                    dictionary = pause(dictionary, 2, 0)
+                    dictionary = pause(dictionary, port, 0)
                     condition = 0
 
         # going to Kolkata
@@ -445,7 +457,7 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                     condition = 6
 
                 else:
-                    dictionary = pause(dictionary, 2, servo)
+                    dictionary = pause(dictionary, port, servo)
                     laut_jao = 1
                     servo = 1
                     servoTime = time.time()
@@ -520,7 +532,7 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                     stop = 1
                     target = 0
                     destNo2 = destNo2+1
-                    dictionary = pause(dictionary, 2, {servo})
+                    dictionary = pause(dictionary, port, {servo})
                     condition = 0
 
     if servo == 1 and time.time() - servoTime > 1:
@@ -573,4 +585,4 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
         checkStop = []
         w = 1
 
-    return dictionary, destNo2
+    return dictionary, destNo2, newBotEntry

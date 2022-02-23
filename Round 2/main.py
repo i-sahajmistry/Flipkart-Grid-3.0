@@ -14,14 +14,15 @@ def cvFunc():
     induct = read_data()
     destNo1 = 0
     destNo2 = 0
-    port = [0,1]
-    newBotEntry = 0
+    port = [1,0]
+    newBotEntry = [0, 0]
+
 
     location = {i: [[0, 0] for j in range(5)] for i in range(0, 8)}
     destination = [{
-                    'M':[[1053,171], [1060, 241], [1080,35]],
-                    'D':[[1058,388], [1060, 462], [1080,35]],
-                    'K':[[1059,619], [1060, 695], [1080,35]],
+                    'M':[[1090,220], [1060, 241], [1080,35]],
+                    'D':[[1050,438], [1060, 462], [1080,35]],
+                    'K':[[1050,669], [1060, 695], [1080,35]],
                     'C':[[1053,171], [1035, 239], [865,20]],
                     'B':[[855,322], [848, 333], [865,20]],
                     'H':[[855,495], [853, 506], [865,20]],
@@ -40,9 +41,9 @@ def cvFunc():
                     'D':[[832,270], [1128,353], [807,36]],
                     'K':[[832,270], [1199,344], [1279,647], [807,36]]}]
 
-    vid = cv2.VideoCapture(1)
+    vid = cv2.VideoCapture(2)
     vid.set(3, 1420)
-    vid.set(4, 1420)
+    vid.set(4, 1420) 
 
     while True:
         _, frame = vid.read()
@@ -56,26 +57,27 @@ def cvFunc():
         corners = [location[i][4] for i in range(4, 8)]
         frame = warp(frame, corners)
         print("BOT1 -", induct[0][destNo1][1], location[port[0]][4], end=" ")
+        
         if 10<location[port[0]][4][0]<600:
-            newBotEntry = 1
-            if(port[0]==1 and port[1]!=3):
-                port[0]=3
-            else:
+            newBotEntry[0] = 1
+            if(port[0]==0 and port[1]!=1):
                 port[0]=1
+            else:
+                port[0]=0
 
-        dictionary, destNo1 = motion1.move_bot(
-        location, destination[0][induct[0][destNo1][1]], destNo1, dictionary, induct[0][destNo1][1], port[0], destination, newBotEntry)
+        dictionary, destNo1, newBotEntry[0] = motion1.move_bot(
+        location, destination[0][induct[0][destNo1][1]], destNo1, dictionary, induct[0][destNo1][1], port[0], destination, newBotEntry[0])
 
         if 10<location[port[1]][4][0]<600:
-            newBotEntry = 1
-            if(port[1]==3 and port[0]!=2):
-                port[1]=2
+            newBotEntry[1] = 1
+            if(port[1]==1 and port[0]!=0):
+                port[1]=0
             else:
-                port[1]=3
+                port[1]=1
 
         print("BOT2 -", induct[1][destNo2][1], location[port[1]][4], end=" ")
-        dictionary, destNo2 = motion2.move_bot(
-            location, destination[1][induct[1][destNo2][1]], destNo2, dictionary, induct[1][destNo2][1], port[1], destination, newBotEntry)
+        dictionary, destNo2, newBotEntry[1] = motion2.move_bot(
+            location, destination[1][induct[1][destNo2][1]], destNo2, dictionary, induct[1][destNo2][1], port[1], destination, newBotEntry[1])
         collision(location,dictionary,induct[1][destNo2][1])
 
         if startTime:
@@ -110,7 +112,7 @@ def socketFunc1():
             startTime = time.time()
         client.settimeout(10)
         # print("BOT1 - ", dictionary['bot1'])
-        client.send(bytes(dictionary['bot0'], encoding='utf8'))
+        client.send(bytes(dictionary['bot1'], encoding='utf8'))
         client.close()
 
 
@@ -127,7 +129,7 @@ def socketFunc2():
             startTime = time.time()
         client.settimeout(10)
         # print("BOT2 - ", dictionary['bot2'])
-        client.send(bytes(dictionary['bot1'], encoding='utf8'))
+        client.send(bytes(dictionary['bot0'], encoding='utf8'))
         client.close()
 
 
