@@ -209,3 +209,14 @@ def collision(location,dictionary,letter):
             dictionary['bot2'] = f'10010000000'    
             colDict = ['bot2', dictionary['bot2']]
 
+def brake(signal):
+    print(signal)
+    signal = list(signal)
+    print(signal)
+    for i in range(4):
+        if signal[i]=='1':
+            signal[i]='0'
+        else:
+            signal[i]='1'
+        t = ''.join(signal)
+    return t
