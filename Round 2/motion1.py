@@ -24,7 +24,6 @@ def move_bot(location, destination, destNo, dictionary, letter, port, allDestina
     position = location[port][4]
     cx, cy = position
     shortestAngle, intHeadingDeg = getAngle(location[port], destination[target], laut_jao)
-    print(intHeadingDeg, end = " ")
 
 # //***********************************************************************************************************************//
                                         # Replacement of bot 1 code started
@@ -567,7 +566,7 @@ def move_bot(location, destination, destNo, dictionary, letter, port, allDestina
     elif wall == 0 and (checkStop == [] or displacement(checkStop[0][0], checkStop[0][1], cx, cy) < 10):
         checkStop.append([cx, cy])
         t = 1.5
-        if len(checkStop) > 25:
+        if len(checkStop) > 20:
             if displacement(wx, wy, cx, cy) < 20:
                 w += 1
             else:

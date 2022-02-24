@@ -31,15 +31,15 @@ def cvFunc():
                     'J':[[1079,124], [614,140], [615,675], [1080,35]]},
                     
                    {
-                    'P':[[850,258], [824,249], [815,36]],
-                    'A':[[840,400], [825,453], [800,36]],
-                    'J':[[842,705], [820,684], [807,36]],
-                    'C':[[842,250], [849,228], [815,36]],
-                    'B':[[840,515], [847,452], [800,36]],
-                    'H':[[842,705], [845,685], [807,36]],
-                    'M':[[850,300], [1127,344], [817,36]],
-                    'D':[[852,300], [1128,333], [817,36]],
-                    'K':[[842,300], [1299,344], [1299,647], [807,36]]}]
+                    'P':[[850,290], [824,249], [810,33]],
+                    'A':[[850,430], [825,453], [810,33]],
+                    'J':[[850,705], [820,684], [810,33]],
+                    'C':[[850,290], [849,228], [810,33]],
+                    'B':[[850,430], [847,452], [810,33]],
+                    'H':[[850,705], [845,685], [810,33]],
+                    'M':[[820,338], [1150,341], [810,33]],
+                    'D':[[820,338], [1150,341], [810,33]],
+                    'K':[[820,338], [1264,342], [1295,627], [810,33]]}]
 
     vid = cv2.VideoCapture(2)
     vid.set(3, 1420)
@@ -59,31 +59,29 @@ def cvFunc():
         cv2.putText(frame,induct[1][destNo2][2],(location[1][4][0], location[1][4][1]), font, 0.7, (0,0,0),3 )
         corners = [location[i][4] for i in range(4, 8)]
         frame = warp(frame, corners)
-        print("BOT1 -", induct[0][destNo1][1], location[port[0]][4], end=" ")
+        print(f"BOT{port[0]} -", induct[0][destNo1][1], location[port[0]][4], end=" ")
         
         if 10<location[port[0]][4][0]<500:
             newBotEntry[0] = 1
-            if(port[0]==0 and port[1]!=1):
-                port[0]=1
-
-
+            if(port[0]==2 and port[1]!=3):
+                port[0]=3
             else:
-                port[0]=0
+                port[0]=2
 
         dictionary, destNo1, newBotEntry[0] = motion1.move_bot(
         location, destination[0][induct[0][destNo1][1]], destNo1, dictionary, induct[0][destNo1][1], port[0], destination, newBotEntry[0])
 
         if 10<location[port[1]][4][0]<500:
             newBotEntry[1] = 1
-            if(port[1]==1 and port[0]!=0):
-                port[1]=0
+            if(port[1]==3 and port[0]!=2):
+                port[1]=2
             else:
-                port[1]=1
+                port[1]=3
 
-        print("BOT2 -", induct[1][destNo2][1], location[port[1]][4], end=" ")
+        print(f"BOT{port[1]} -", induct[1][destNo2][1], location[port[1]][4], end=" ")
         dictionary, destNo2, newBotEntry[1] = motion2.move_bot(
             location, destination[1][induct[1][destNo2][1]], destNo2, dictionary, induct[1][destNo2][1], port[1], destination, newBotEntry[1])
-        collision(location,dictionary,induct[1][destNo2][1])
+        collision(location,dictionary,induct[1][destNo2][1], port)
 
         if startTime:
             seconds = round (time.time()-startTime,0)
