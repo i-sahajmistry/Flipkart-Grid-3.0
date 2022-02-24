@@ -30,7 +30,7 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
 # //***********************************************************************************************************************//
 
     if(newBotEntry==1):
-        if(port==1):
+        if(port==3):
             secondReplce=2
                 
         if(port!=1 and secondReplce!=2):

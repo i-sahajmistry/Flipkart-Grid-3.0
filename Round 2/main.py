@@ -60,22 +60,20 @@ def cvFunc():
         
         if 10<location[port[0]][4][0]<500:
             newBotEntry[0] = 1
-            if(port[0]==0 and port[1]!=1):
-                port[0]=1
-
-
+            if(port[0]==2 and port[1]!=3):
+                port[0]=3
             else:
-                port[0]=0
+                port[0]=2
 
         dictionary, destNo1, newBotEntry[0] = motion1.move_bot(
         location, destination[0][induct[0][destNo1][1]], destNo1, dictionary, induct[0][destNo1][1], port[0], destination, newBotEntry[0])
 
         if 10<location[port[1]][4][0]<500:
             newBotEntry[1] = 1
-            if(port[1]==1 and port[0]!=0):
-                port[1]=0
+            if(port[1]==3 and port[0]!=2):
+                port[1]=2
             else:
-                port[1]=1
+                port[1]=3
 
         print("BOT2 -", induct[1][destNo2][1], location[port[1]][4], end=" ")
         dictionary, destNo2, newBotEntry[1] = motion2.move_bot(
