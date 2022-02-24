@@ -137,11 +137,50 @@ def socketFunc2():
         client.send(bytes(dictionary['bot1'], encoding='utf8'))
         client.close()
 
+def socketFunc3():
+    global dictionary, startTime
+    port = 2222
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind(('0.0.0.0', port))
+    s.listen(0)
+
+    while True:
+        client, addr = s.accept()
+        if not startTime:
+            startTime = time.time()
+        client.settimeout(10)
+        # print("BOT1 - ", dictionary['bot1'])
+        client.send(bytes(dictionary['bot2'], encoding='utf8'))
+        client.close()
+
+
+def socketFunc4():
+    global dictionary, startTime
+    port = 3333
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind(('0.0.0.0', port))
+    s.listen(0)
+
+    while True:
+        client, addr = s.accept()
+        if not startTime:
+            startTime = time.time()
+        client.settimeout(10)
+        # print("BOT2 - ", dictionary['bot2'])
+        client.send(bytes(dictionary['bot3'], encoding='utf8'))
+        client.close()
+
 
 socketThread = threading.Thread(target=socketFunc1)
 socketThread.start()
 
 socketThread = threading.Thread(target=socketFunc2)
+socketThread.start()
+
+socketThread = threading.Thread(target=socketFunc3)
+socketThread.start()
+
+socketThread = threading.Thread(target=socketFunc4)
 socketThread.start()
 
 cvThread = threading.Thread(target=cvFunc)

@@ -30,8 +30,11 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
 # //***********************************************************************************************************************//
 
     if(newBotEntry==1):
-        if(port==1):
+        laut_jao = 1
+        if(port==3):
             secondReplce=2
+        else:
+            secondReplce=0
                 
         if(port!=1 and secondReplce!=2):
           
@@ -43,7 +46,7 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
 
            
             elif(cx > 770 and conditionReplace<2):
-                target = 0
+                shortestAngle, intHeadingDeg = getAngle(location[port], (825, 800), laut_jao)
                 if(shortestAngle < 0):
                     shortestAngle += 180
                 else:
@@ -87,7 +90,7 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                 print("backward to IS 2")
 
             elif(cy > 45 ):
-                target = 2
+                target = len(destination) - 1
                 if(shortestAngle < 0):
                     shortestAngle += 180
                 else:
@@ -115,7 +118,7 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
    
 
 # //***********************************************************************************************************************//
-                                    # Replacement of bot 2 code ended
+                                    # GOING TO P A J C B H
 # //***********************************************************************************************************************//
 
     elif stop == 1:
@@ -194,7 +197,9 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                 target = 0
                 condition = 3
 
-    # returning from C,B,H,P,A,J
+# //***********************************************************************************************************************//
+                                    # RETURNING FROM P A J C B H
+# //***********************************************************************************************************************//
 
         else:
             if(cx > 825  and condition < 4 and letter in 'CBH'):
@@ -281,8 +286,9 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                 target = 0
                 dictionary = pause(dictionary, port, servo)
                 condition = 0
-   
-    # code for going to mumbai, delhi   
+# //***********************************************************************************************************************//
+                                    # GOING TO M D
+# //***********************************************************************************************************************//  
     else:
         if(destination[-2][1] < 400):
             if(laut_jao == 0):
@@ -350,8 +356,9 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                     dictionary = pause(dictionary, port, servo)
                     laut_jao = 1
                     condition = 3
-
-            # returning from mumbai, delhi
+# //***********************************************************************************************************************//
+                                    # RETURNING FROM M D
+# //***********************************************************************************************************************//
             else:
                 if cy < 330 and condition < 4 and letter == 'M':
                     dictionary[f'bot{port}'] = f'01010800801'
@@ -414,7 +421,9 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                     dictionary = pause(dictionary, port, 0)
                     condition = 0
 
-        # going to Kolkata
+# //***********************************************************************************************************************//
+                                    # GOING TO K
+# //***********************************************************************************************************************//  
         else:
             if(laut_jao == 0):
 
@@ -475,8 +484,9 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                     servo = 1
                     servoTime = time.time()
                     condition = 5
-
-            # returning from kolkATA
+# //***********************************************************************************************************************//
+                                    # RETURNING FROM K
+# //***********************************************************************************************************************//  
             else:
                 if(cx < 1285  and condition < 6):
                     target = 0
@@ -559,6 +569,9 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
     if servo == 1 and time.time() - servoTime > 1:
         servo = 0
                 
+# //***********************************************************************************************************************//
+                                    # WALL COLLISION
+# //***********************************************************************************************************************//  
     if wall == 1:
         print(w)
         if w == 1 or w == 2 or target == len(destination)-1:
