@@ -15,19 +15,20 @@ def cvFunc():
     destNo1 = 0
     destNo2 = 0
     port = [0,1]
-    newBotEntry = 0
+    newBotEntry = [0, 0]
+
 
     location = {i: [[0, 0] for j in range(5)] for i in range(0, 8)}
     destination = [{
-                    'M':[[1053,171], [1060, 241], [1080,35]],
-                    'D':[[1058,388], [1060, 462], [1080,35]],
-                    'K':[[1059,619], [1060, 695], [1080,35]],
-                    'C':[[1053,171], [1035, 239], [865,20]],
-                    'B':[[855,322], [848, 333], [865,20]],
-                    'H':[[855,495], [853, 506], [865,20]],
-                    'P':[[855, 71], [635, 90], [880,25]],
-                    'A':[[855, 71], [495, 100], [495, 325], [880,25]],
-                    'J':[[855, 71], [495, 100], [495, 507], [880,25]]},
+                    'M':[[1080,220], [1060, 241], [1080,35]],
+                    'D':[[1050,438], [1060, 462], [1080,35]],
+                    'K':[[1050,669], [1060, 695], [1080,35]],
+                    'C':[[1080,220], [1045, 247], [1080,35]],
+                    'B':[[1050,438], [1045, 478], [1080,35]],
+                    'H':[[1050,669], [1045, 702], [1080,35]],
+                    'P':[[1079,124], [737,133], [1080,35]],
+                    'A':[[1079,124], [614,140], [615,444], [1080,35]],
+                    'J':[[1079,124], [614,140], [615,675], [1080,35]]},
                     
                    {
                     'P':[[840,178], [824,249], [807,36]],
@@ -40,9 +41,9 @@ def cvFunc():
                     'D':[[832,270], [1128,353], [807,36]],
                     'K':[[832,270], [1199,344], [1279,647], [807,36]]}]
 
-    vid = cv2.VideoCapture(1)
+    vid = cv2.VideoCapture(2)
     vid.set(3, 1420)
-    vid.set(4, 1420)
+    vid.set(4, 1420) 
 
     while True:
         _, frame = vid.read()
@@ -56,26 +57,29 @@ def cvFunc():
         corners = [location[i][4] for i in range(4, 8)]
         frame = warp(frame, corners)
         print("BOT1 -", induct[0][destNo1][1], location[port[0]][4], end=" ")
-        if 10<location[port[0]][4][0]<600:
-            newBotEntry = 1
-            if(port[0]==1 and port[1]!=3):
-                port[0]=3
-            else:
+        
+        if 10<location[port[0]][4][0]<500:
+            newBotEntry[0] = 1
+            if(port[0]==0 and port[1]!=1):
                 port[0]=1
 
-        dictionary, destNo1 = motion1.move_bot(
-        location, destination[0][induct[0][destNo1][1]], destNo1, dictionary, induct[0][destNo1][1], port[0], destination, newBotEntry)
 
-        if 10<location[port[1]][4][0]<600:
-            newBotEntry = 1
-            if(port[1]==3 and port[0]!=2):
-                port[1]=2
             else:
-                port[1]=3
+                port[0]=0
+
+        dictionary, destNo1, newBotEntry[0] = motion1.move_bot(
+        location, destination[0][induct[0][destNo1][1]], destNo1, dictionary, induct[0][destNo1][1], port[0], destination, newBotEntry[0])
+
+        if 10<location[port[1]][4][0]<500:
+            newBotEntry[1] = 1
+            if(port[1]==1 and port[0]!=0):
+                port[1]=0
+            else:
+                port[1]=1
 
         print("BOT2 -", induct[1][destNo2][1], location[port[1]][4], end=" ")
-        dictionary, destNo2 = motion2.move_bot(
-            location, destination[1][induct[1][destNo2][1]], destNo2, dictionary, induct[1][destNo2][1], port[1], destination, newBotEntry)
+        dictionary, destNo2, newBotEntry[1] = motion2.move_bot(
+            location, destination[1][induct[1][destNo2][1]], destNo2, dictionary, induct[1][destNo2][1], port[1], destination, newBotEntry[1])
         collision(location,dictionary,induct[1][destNo2][1])
 
         if startTime:
@@ -99,7 +103,7 @@ def cvFunc():
 
 def socketFunc1():
     global dictionary, startTime
-    port = 2222
+    port = 4444
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind(('0.0.0.0', port))
     s.listen(0)
@@ -116,7 +120,7 @@ def socketFunc1():
 
 def socketFunc2():
     global dictionary, startTime
-    port = 1111
+    port = 2222
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind(('0.0.0.0', port))
     s.listen(0)
