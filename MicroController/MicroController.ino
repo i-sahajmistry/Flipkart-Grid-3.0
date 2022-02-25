@@ -5,7 +5,7 @@ WiFiClient client;
 
 Servo myMotor;
 
-const uint16_t port = 1111;
+const uint16_t port = 4444;
 const char *host = "10.42.0.1";
 
 const int n = 6;
@@ -131,22 +131,23 @@ void pid()
   unsigned long diff_l;
   unsigned long diff_r;
 
-  delay(5);
+  delay(50);
 
   diff_l = enc_l - enc_l_prev;
   diff_r = enc_r - enc_r_prev;
   int diff = diff_l - diff_r;
+//  Serial.println(diff);
 
   if (altCount % 2 == 0)
   {
     if (diff_l > diff_r)
     {
-      pwmr += 1;
+      pwmr += diff/2;
     }
     
     if (diff_l < diff_r)
     {
-      pwmr -= 1;
+      pwmr -= diff/2;
     }
   }
 
@@ -154,12 +155,12 @@ void pid()
   {
     if (diff_l > diff_r)
     {
-      pwml -= 1;
+      pwml -= diff;
     }
     
     if (diff_l < diff_r)
     {
-      pwml += 1;
+      pwml += diff;
     }
   }
  

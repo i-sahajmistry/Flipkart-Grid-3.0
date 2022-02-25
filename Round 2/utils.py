@@ -22,6 +22,7 @@ def read_data():
     induct = [np.array(df)]
     # induct=np.array(induct)
     df = pd.read_csv(os.path.join(ROOT_DIR, 'csv', 'bot2.csv'))
+    columns_titles = ["Induct Station", "Destination", "Shipment"] 
     df=df.reindex(columns=columns_titles)
     induct.append(np.array(df))
     # print(induct)    
@@ -65,8 +66,8 @@ def warp(frame, corners):
 def getSpeeds(target, destination, postiton):
     dist = displacement(destination[target][0], destination[target][1], postiton[0], postiton[1])
     print(dist)
-    h1 = int(max(min(150, dist//1), 50))
-    h2 = int(max(min(150, dist//1), 50))
+    h1 = int(max(min(140, dist//2), 85))
+    h2 = int(max(min(140, dist//2), 85))
     return h1, h2
 
 

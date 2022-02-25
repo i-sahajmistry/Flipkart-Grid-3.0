@@ -19,7 +19,7 @@ w, wx, wy = 0, 0, 0
 
 goupto = {'P': 195, 'A':390 ,'J':633, 'C':190, 'B':390, 'H':633 }
 
-def move_bot(location, destination, destNo2, dictionary, letter, port, allDestinations, newBotEntry):
+def move_bot(location, destination, destNo2, dictionary, letter, port,ids, allDestinations, newBotEntry):
     global stop, then, s, laut_jao, target, condition, sec, wall, checkStop, servo, servoTime, w, wx, wy, t, secondReplce, conditionReplace
     position = location[port][4]
     cx, cy = position
@@ -31,16 +31,16 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
 
     if(newBotEntry==1):
         laut_jao = 1
-        if(port==3):
+        if(port==ids[3]):
             secondReplce=2
         else:
             secondReplce=0
                 
-        if(port!=1 and secondReplce!=2):
+        if(port!=ids[1] and secondReplce!=2):
           
-            if(intHeadingDeg > -40 and conditionReplace<1):
+            if(intHeadingDeg > -60 and conditionReplace<1):
                 print("anticlockwise-1")
-                dictionary[f'bot{port}'] = f'0110110110{servo}'
+                dictionary[f'bot{port}'] = f'0110090090{servo}'
                 target = 0
                 conditionReplace = 0
 
@@ -51,8 +51,9 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                     shortestAngle += 180
                 else:
                     shortestAngle -= 180
-                h2 = str(max(0, min(160, 90 - int(shortestAngle * 2.5))))
-                h1 = str(max(0, min(160, 70 + int(shortestAngle * 2.5))))
+                h1, h2 = getSpeeds(target, destination, position)
+                h1 = str(max(0, min(180, h1 + int(shortestAngle * 2.5))))
+                h2 = str(max(0, min(180, h2 - int(shortestAngle * 2.5))))
                 h1 = '0'*(3-len(h1)) + h1
                 h2 = '0'*(3-len(h2)) + h2
                 dictionary[f'bot{port}'] = f'0101{h2}{h1}{servo}'
@@ -60,8 +61,8 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                 conditionReplace = 1
 
 
-            elif(intHeadingDeg > -100 and conditionReplace<3):
-                dictionary[f'bot{port}'] = f'1001110110{servo}'
+            elif(intHeadingDeg < -30 and conditionReplace<3):
+                dictionary[f'bot{port}'] = f'1001090090{servo}'
                 print("clockwise-1")
                 target = 0
                 conditionReplace = 2
@@ -71,35 +72,37 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                 secondReplce=2
 
         if(secondReplce==2):
-            if(cy > goupto['P'] + 60 ):
+            if(cy > goupto['P'] + 60):
                 target = 2
-                shortestAngle, intHeadingDeg = getAngle(location[port], (795,178), laut_jao)
+                shortestAngle, intHeadingDeg = getAngle(location[port], (840,150), laut_jao)
                 if(shortestAngle < 0):
                     shortestAngle += 180
                 else:
                     shortestAngle -= 180
                 h1, h2 = getSpeeds(target, destination, position)
-                h1 = str(max(0, min(180, h1 + int(shortestAngle * 0))))
-                h2 = str(max(0, min(180, h2 - int(shortestAngle * 0))))
+                h1 = str(max(0, min(180, h1 + int(shortestAngle * 2))))
+                h2 = str(max(0, min(180, h2 - int(shortestAngle * 2))))
                 
                 h1 = '0'*(3-len(h1)) + h1
                 h2 = '0'*(3-len(h2)) + h2
                 dictionary[f'bot{port}'] = f'0101{h2}{h1}{servo}'
                 print("backward to IS 2")
+                condition = 5
 
-            elif(cy > 45 ):
-                target = len(destination) - 1
+            elif(cy > 45 and condition < 6):
+                target = 2
                 if(shortestAngle < 0):
                     shortestAngle += 180
                 else:
                     shortestAngle -= 180
                 h1, h2 = getSpeeds(target, destination, position)
-                h1 = str(max(0, min(150, h1 + int(shortestAngle * 0))))
-                h2 = str(max(0, min(180, h2 - int(shortestAngle * 0))))
+                h1 = str(max(0, min(180, h1 + int(shortestAngle * 2))))
+                h2 = str(max(0, min(180, h2 - int(shortestAngle * 2))))
                 h1 = '0'*(3-len(h1)) + h1
                 h2 = '0'*(3-len(h2)) + h2
                 dictionary[f'bot{port}'] = f'0101{h2}{h1}{servo}'
                 print("backward")
+                condition = 5
 
             else:
                 laut_jao = 0
@@ -135,9 +138,9 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
             if(cy < goupto['P'] and condition < 1):
                 target = 0
                 h1, h2 = getSpeeds(target, destination, position)
-                shortestAngle, intHeadingDeg = getAngle(location[port], (845, 210), laut_jao)
-                h1 = str(max(0, min(250, h1 - int(shortestAngle * 2))))
-                h2 = str(max(0, min(250, h2 + int(shortestAngle * 2))))
+                shortestAngle, intHeadingDeg = getAngle(location[port], (832, 210), laut_jao)
+                h1 = str(max(0, min(180, h1 - int(shortestAngle * 2))))
+                h2 = str(max(0, min(180, h2 + int(shortestAngle * 2))))
                 h1 = '0'*(3-len(h1)) + h1
                 h2 = '0'*(3-len(h2)) + h2
 
@@ -149,8 +152,8 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                 target = 0
                 h1, h2 = getSpeeds(target, destination, position)
                 shortestAngle, intHeadingDeg = getAngle(location[port], (845, 405), laut_jao)
-                h1 = str(max(0, min(250, h1 - int(shortestAngle * 7))))
-                h2 = str(max(0, min(250, h2 + int(shortestAngle * 7))))
+                h1 = str(max(0, min(180, h1 - int(shortestAngle * 7))))
+                h2 = str(max(0, min(180, h2 + int(shortestAngle * 7))))
                 h1 = '0'*(3-len(h1)) + h1
                 h2 = '0'*(3-len(h2)) + h2
 
@@ -163,8 +166,8 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
 
                 target = 0
                 h1, h2 = getSpeeds(target, destination, position)
-                h1 = str(max(0, min(250, h1 - int(shortestAngle * 5))))
-                h2 = str(max(0, min(250, h2 + int(shortestAngle * 5))))
+                h1 = str(max(0, min(180, h1 - int(shortestAngle * 5))))
+                h2 = str(max(0, min(180, h2 + int(shortestAngle * 5))))
                 h1 = '0'*(3-len(h1)) + h1
                 h2 = '0'*(3-len(h2)) + h2
                 dictionary[f'bot{port}'] = f'1010{h2}{h1}{servo}'
@@ -231,7 +234,7 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                 print("backward-1")
                 condition = 3
 
-            elif(cx < 835  and condition < 4 and letter == 'PAJ'):
+            elif(cx < 835  and condition < 4 and letter in 'J'):
                 target = 0
                 h1 = str(max(0, min(180, 80 - int((intHeadingDeg - 90) * 0.5))))
                 h2 = str(max(0, min(180, 80 + int((intHeadingDeg - 90) * 0.5))))
@@ -241,28 +244,32 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                 print("backward-1")
                 condition = 3
 
-            elif(intHeadingDeg < -20  and condition < 5):
+            elif(intHeadingDeg < -30  and condition < 5):
                 dictionary[f'bot{port}'] = f'1001090090{servo}'
                 print("clockwise", intHeadingDeg)
                 target = 2
                 condition = 4
 
-            elif(intHeadingDeg > 20  and condition < 5):
+            
+
+            # elif(intHeadingDeg > 20  and condition < 5):
+            elif(intHeadingDeg > 50  and condition < 5):
                 condition = 4
                 dictionary[f'bot{port}'] = f'0110090090{servo}'
                 print("anticlockwise", intHeadingDeg)
-                target = 2                
+                target = 2  
+                          
 
             elif(cy > goupto['P'] + 60 and condition < 6 and letter in ['A', 'J', 'B', 'H']):
                 target = 2
-                shortestAngle, intHeadingDeg = getAngle(location[port], (810,200), laut_jao)
+                shortestAngle, intHeadingDeg = getAngle(location[port], (840,150), laut_jao)
                 if(shortestAngle < 0):
                     shortestAngle += 180
                 else:
                     shortestAngle -= 180
                 h1, h2 = getSpeeds(target, destination, position)
-                h1 = str(max(0, min(180, h1 + int(shortestAngle * 6))))
-                h2 = str(max(0, min(180, h2 - int(shortestAngle * 6))))
+                h1 = str(max(0, min(180, h1 + int(shortestAngle * 2))))
+                h2 = str(max(0, min(180, h2 - int(shortestAngle * 2))))
                 
                 h1 = '0'*(3-len(h1)) + h1
                 h2 = '0'*(3-len(h2)) + h2
@@ -277,8 +284,8 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                 else:
                     shortestAngle -= 180
                 h1, h2 = getSpeeds(target, destination, position)
-                h1 = str(max(0, min(180, h1 + int(shortestAngle * 4))))
-                h2 = str(max(0, min(180, h2 - int(shortestAngle * 4))))
+                h1 = str(max(0, min(180, h1 + int(shortestAngle * 2))))
+                h2 = str(max(0, min(180, h2 - int(shortestAngle * 2))))
                 h1 = '0'*(3-len(h1)) + h1
                 h2 = '0'*(3-len(h2)) + h2
                 dictionary[f'bot{port}'] = f'0101{h2}{h1}{servo}'
@@ -396,8 +403,8 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                     else:
                         shortestAngle -= 180
                     h1, h2 = getSpeeds(target, destination, position)
-                    h1 = str(max(0, min(160, h1 + int(shortestAngle * 4))))
-                    h2 = str(max(0, min(160, h2 - int(shortestAngle * 4))))
+                    h1 = str(max(0, min(180, h1 + int(shortestAngle * 4))))
+                    h2 = str(max(0, min(180, h2 - int(shortestAngle * 4))))
                     h1 = '0'*(3-len(h1)) + h1
                     h2 = '0'*(3-len(h2)) + h2
                     dictionary[f'bot{port}'] = f'0101{h2}{h1}{servo}'
@@ -522,8 +529,8 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                     else:
                         shortestAngle -= 180
                     h1, h2 = getSpeeds(target, destination, position)
-                    h1 = str(max(0, min(200, h1 + int(shortestAngle * 5))))
-                    h2 = str(max(0, min(200, h2 - int(shortestAngle * 5))))
+                    h1 = str(max(0, min(180, h1 + int(shortestAngle * 5))))
+                    h2 = str(max(0, min(180, h2 - int(shortestAngle * 5))))
                     h1 = '0'*(3-len(h1)) + h1
                     h2 = '0'*(3-len(h2)) + h2
                     dictionary[f'bot{port}'] = f'0101{h2}{h1}{servo}'
@@ -543,8 +550,8 @@ def move_bot(location, destination, destNo2, dictionary, letter, port, allDestin
                     else:
                         shortestAngle -= 180
                     h1, h2 = getSpeeds(target, destination, position)
-                    h1 = str(max(0, min(160, h1 + int(shortestAngle * 5))))
-                    h2 = str(max(0, min(160, h2 - int(shortestAngle * 5))))
+                    h1 = str(max(0, min(180, h1 + int(shortestAngle * 5))))
+                    h2 = str(max(0, min(180, h2 - int(shortestAngle * 5))))
                     h1 = '0'*(3-len(h1)) + h1
                     h2 = '0'*(3-len(h2)) + h2
                     dictionary[f'bot{port}'] = f'0101{h2}{h1}{servo}'

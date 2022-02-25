@@ -14,7 +14,8 @@ def cvFunc():
     induct = read_data()
     destNo1 = 0
     destNo2 = 0
-    port = [0,1]
+    ids = [0,3,1,2]
+    port = [ids[0],ids[1]]
     newBotEntry = [0, 0]
 
 
@@ -27,8 +28,8 @@ def cvFunc():
                     'B':[[1050,438], [1045, 478], [1080,35]],
                     'H':[[1050,669], [1045, 702], [1080,35]],
                     'P':[[1079,124], [737,133], [1080,35]],
-                    'A':[[1079,124], [614,140], [615,444], [1080,35]],
-                    'J':[[1079,124], [614,140], [615,675], [1080,35]]},
+                    'A':[[1079,124], [614,140], [600,517], [1080,35]],
+                    'J':[[1079,124], [614,140], [600,742], [1080,35]]},
                     
                    {
                     'P':[[850,290], [824,249], [810,33]],
@@ -63,24 +64,24 @@ def cvFunc():
         
         if 10<location[port[0]][4][0]<500:
             newBotEntry[0] = 1
-            if(port[0]==2 and port[1]!=3):
-                port[0]=3
+            if(port[0]==ids[2] and port[1]!=ids[3]):
+                port[0]=ids[3]
             else:
-                port[0]=2
+                port[0]=ids[2]
 
         dictionary, destNo1, newBotEntry[0] = motion1.move_bot(
-        location, destination[0][induct[0][destNo1][1]], destNo1, dictionary, induct[0][destNo1][1], port[0], destination, newBotEntry[0])
+        location, destination[0][induct[0][destNo1][1]], destNo1, dictionary, induct[0][destNo1][1], port[0], ids, destination, newBotEntry[0])
 
         if 10<location[port[1]][4][0]<500:
             newBotEntry[1] = 1
-            if(port[1]==3 and port[0]!=2):
-                port[1]=2
+            if(port[1]==ids[3] and port[0]!=ids[2]):
+                port[1]=ids[2]
             else:
-                port[1]=3
+                port[1]=ids[3]
 
         print(f"BOT{port[1]} -", induct[1][destNo2][1], location[port[1]][4], end=" ")
         dictionary, destNo2, newBotEntry[1] = motion2.move_bot(
-            location, destination[1][induct[1][destNo2][1]], destNo2, dictionary, induct[1][destNo2][1], port[1], destination, newBotEntry[1])
+            location, destination[1][induct[1][destNo2][1]], destNo2, dictionary, induct[1][destNo2][1], port[1],ids,destination, newBotEntry[1])
         collision(location,dictionary,induct[1][destNo2][1], port)
 
         if startTime:
