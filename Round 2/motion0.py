@@ -365,7 +365,7 @@ def move_bot(location, destination, destNo, dictionary, letter, port, ids, allDe
                 print("forward-1")
                 condition=2
 
-            elif(intHeadingDeg > 40 and condition < 4):
+            elif(intHeadingDeg > 30 and condition < 4):
                 dictionary[f'bot{port}'] = f'0110080080{servo}'
                 print("anticlockwise-1")
                 target=2
@@ -591,14 +591,9 @@ def move_bot(location, destination, destNo, dictionary, letter, port, ids, allDe
                                         # SPECIAL CONDITIONS
 # //***********************************************************************************************************************//
 
-    if letter in ['M', 'D', 'K', 'C', 'B', 'H'] and cx > 1100:
+    if letter in ['M', 'D', 'K', 'C', 'B', 'H'] and laut_jao == 0 and cx > 1100:
         if intHeadingDeg < 70:
             dictionary[f'bot{port}'] = f'1001090090{servo}'
-        else:
-            dictionary[f'bot{port}'] = f'1010090090{servo}'
-    elif letter in ['M', 'D', 'K', 'C', 'B', 'H']  and cx < 998:
-        if intHeadingDeg > -70:
-            dictionary[f'bot{port}'] = f'0110090090{servo}'
         else:
             dictionary[f'bot{port}'] = f'1010090090{servo}'
 

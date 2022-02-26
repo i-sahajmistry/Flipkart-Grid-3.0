@@ -2,8 +2,10 @@ import cv2
 import socket
 import threading
 from utils import *
+import motion0
 import motion1
 import motion2
+import motion3
 import time
 
 dictionary = {'bot0': '10100000000', 'bot1': '10100000000', 'bot2': '10100000000', 'bot3': '10100000000'}
@@ -69,9 +71,16 @@ def cvFunc():
             else:
                 port[0]=ids[2]
 
-        dictionary, destNo1, newBotEntry[0] = motion1.move_bot(
-            location, destination[0][induct[0][destNo1][1]], destNo1, dictionary, induct[0][destNo1][1], port[0], ids, destination, newBotEntry[0])
+        if port[0] == 0 or port[0] == 2:
+            dictionary, destNo1, newBotEntry[0] = motion0.move_bot(
+                location, destination[0][induct[0][destNo1][1]], destNo1, dictionary, induct[0][destNo1][1], port[0], ids, destination, newBotEntry[0])
+        else:
+            dictionary, destNo1, newBotEntry[0] = motion1.move_bot(
+                location, destination[0][induct[0][destNo1][1]], destNo1, dictionary, induct[0][destNo1][1], port[0], ids, destination, newBotEntry[0])
+
         # collision(location,dictionary,[induct[1][destNo1][1], induct[0][destNo2][1]], port)
+
+        print(f"BOT{port[1]} -", induct[1][destNo2][1], location[port[1]][4], end=" ")
 
         if 10<location[port[1]][4][0]<500:
             newBotEntry[1] = 1
@@ -80,9 +89,13 @@ def cvFunc():
             else:
                 port[1]=ids[3]
 
-        print(f"BOT{port[1]} -", induct[1][destNo2][1], location[port[1]][4], end=" ")
-        dictionary, destNo2, newBotEntry[1] = motion2.move_bot(
-            location, destination[1][induct[1][destNo2][1]], destNo2, dictionary, induct[1][destNo2][1], port[1],ids,destination, newBotEntry[1])
+        if port[1] == 3 or port[1] == 1:
+            dictionary, destNo2, newBotEntry[1] = motion3.move_bot(
+                location, destination[1][induct[1][destNo2][1]], destNo2, dictionary, induct[1][destNo2][1], port[1],ids,destination, newBotEntry[1])
+        else:
+            dictionary, destNo2, newBotEntry[1] = motion2.move_bot(
+                location, destination[1][induct[1][destNo2][1]], destNo2, dictionary, induct[1][destNo2][1], port[1],ids,destination, newBotEntry[1])
+
         collision(location,dictionary,[induct[0][destNo1][1], induct[1][destNo2][1]], port)
 
         if startTime:
