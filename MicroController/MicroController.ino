@@ -5,7 +5,7 @@ WiFiClient client;
 
 Servo myMotor;
 
-const uint16_t port = 4444;
+const uint16_t port = 2222;
 const char *host = "10.42.0.1";
 
 const int n = 6;

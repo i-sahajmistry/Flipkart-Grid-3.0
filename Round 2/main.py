@@ -14,7 +14,7 @@ def cvFunc():
     induct = read_data()
     destNo1 = 0
     destNo2 = 0
-    ids = [0,3,1,2]
+    ids = [1,2,0,3]
     port = [ids[0],ids[1]]
     newBotEntry = [0, 0]
 
@@ -32,15 +32,15 @@ def cvFunc():
                     'J':[[1079,124], [614,140], [600,742], [1080,35]]},
                     
                    {
-                    'P':[[850,290], [824,249], [810,33]],
-                    'A':[[850,430], [825,453], [810,33]],
-                    'J':[[850,705], [820,684], [810,33]],
-                    'C':[[850,290], [849,228], [810,33]],
-                    'B':[[850,430], [847,452], [810,33]],
-                    'H':[[850,705], [845,685], [810,33]],
-                    'M':[[820,338], [1150,341], [810,33]],
-                    'D':[[820,338], [1150,341], [810,33]],
-                    'K':[[820,338], [1264,342], [1295,627], [810,33]]}]
+                    'P':[[850,290], [824,249], [810,0]],
+                    'A':[[850,430], [825,453], [800,0]],
+                    'J':[[850,705], [820,684], [800,0]],
+                    'C':[[830,290], [849,228], [800,0]],
+                    'B':[[830,430], [847,452], [800,0]],
+                    'H':[[850,705], [845,685], [800,0]],
+                    'M':[[850,338], [1150,321], [800,0]],
+                    'D':[[850,338], [1150,321], [800,0]],
+                    'K':[[850,338], [1294,322], [1350,727], [800,0]]}]
 
     vid = cv2.VideoCapture(2)
     vid.set(3, 1420)
@@ -70,7 +70,8 @@ def cvFunc():
                 port[0]=ids[2]
 
         dictionary, destNo1, newBotEntry[0] = motion1.move_bot(
-        location, destination[0][induct[0][destNo1][1]], destNo1, dictionary, induct[0][destNo1][1], port[0], ids, destination, newBotEntry[0])
+            location, destination[0][induct[0][destNo1][1]], destNo1, dictionary, induct[0][destNo1][1], port[0], ids, destination, newBotEntry[0])
+        # collision(location,dictionary,[induct[1][destNo1][1], induct[0][destNo2][1]], port)
 
         if 10<location[port[1]][4][0]<500:
             newBotEntry[1] = 1
@@ -82,7 +83,7 @@ def cvFunc():
         print(f"BOT{port[1]} -", induct[1][destNo2][1], location[port[1]][4], end=" ")
         dictionary, destNo2, newBotEntry[1] = motion2.move_bot(
             location, destination[1][induct[1][destNo2][1]], destNo2, dictionary, induct[1][destNo2][1], port[1],ids,destination, newBotEntry[1])
-        collision(location,dictionary,induct[1][destNo2][1], port)
+        collision(location,dictionary,[induct[0][destNo1][1], induct[1][destNo2][1]], port)
 
         if startTime:
             seconds = round (time.time()-startTime,0)
@@ -96,6 +97,7 @@ def cvFunc():
                 dictionary = {'bot0': '10100000000', 'bot1': '10100000000', 'bot2': '10100000000', 'bot3': '10100000000'}
         else:
             text = 'Time: 00:00'
+        print("Total No. of Parcels Delivered: ", destNo1 + destNo2)
         cv2.putText(frame,text, (500, 65), font, 1.0, (0, 0, 0), 3) # add text on frame
         print(dictionary, "\n")
 
