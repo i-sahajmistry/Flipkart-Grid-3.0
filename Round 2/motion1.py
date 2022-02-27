@@ -533,6 +533,16 @@ def move_bot(location, destination, destNo, dictionary, letter, port, ids, allDe
 
     if servo == 1 and time.time() - servoTime > 1:
         servo = 0
+
+# //***********************************************************************************************************************//
+                                        # SPECIAL CONDITIONS
+# //***********************************************************************************************************************//
+
+    if (target == len(destination) - 1 or target == 0) and cy < 170 and cx > 1095:
+        if intHeadingDeg < 70:
+            dictionary[f'bot{port}'] = f'10010900900'
+        else:
+            dictionary[f'bot{port}'] = f'10100900900'
     
 
 # //***********************************************************************************************************************//
@@ -585,22 +595,6 @@ def move_bot(location, destination, destNo, dictionary, letter, port, ids, allDe
     else:
         checkStop = []
         w = 1
-
-
-# //***********************************************************************************************************************//
-                                        # SPECIAL CONDITIONS
-# //***********************************************************************************************************************//
-
-    if letter in ['M', 'D', 'K', 'C', 'B', 'H'] and cx > 1100:
-        if intHeadingDeg < 70:
-            dictionary[f'bot{port}'] = f'1001090090{servo}'
-        else:
-            dictionary[f'bot{port}'] = f'1010090090{servo}'
-    elif letter in ['M', 'D', 'K', 'C', 'B', 'H']  and cx < 998:
-        if intHeadingDeg > -70:
-            dictionary[f'bot{port}'] = f'0110090090{servo}'
-        else:
-            dictionary[f'bot{port}'] = f'1010090090{servo}'
 
 
     return dictionary, destNo, newBotEntry

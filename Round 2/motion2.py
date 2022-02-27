@@ -74,9 +74,9 @@ def move_bot(location, destination, destNo2, dictionary, letter, port,ids, allDe
             if(cy > goupto['P'] + 20):
                 target = 2
                 if(secondReplce==2):
-                    shortestAngle, intHeadingDeg = getAngle(location[port], (840,150), laut_jao)
-                else:
                     shortestAngle, intHeadingDeg = getAngle(location[port], (800,150), laut_jao)
+                else:
+                    shortestAngle, intHeadingDeg = getAngle(location[port], (840,150), laut_jao)
                     
                 if(shortestAngle < 0):
                     shortestAngle += 180
@@ -99,8 +99,8 @@ def move_bot(location, destination, destNo2, dictionary, letter, port,ids, allDe
                 else:
                     shortestAngle -= 180
                 h1, h2 = getSpeeds(target, destination, position)
-                h1 = str(max(0, min(240, h1 + int(shortestAngle * 2))))
-                h2 = str(max(0, min(240, h2 - int(shortestAngle * 2))))
+                h1 = str(max(0, min(240, h1 + int(shortestAngle * 3))))
+                h2 = str(max(0, min(240, h2 - int(shortestAngle * 3))))
                 h1 = '0'*(3-len(h1)) + h1
                 h2 = '0'*(3-len(h2)) + h2
                 dictionary[f'bot{port}'] = f'0101{h2}{h1}{servo}'
@@ -204,7 +204,7 @@ def move_bot(location, destination, destNo2, dictionary, letter, port,ids, allDe
                 print("RIGHT-forward-1")
                 condition = 2
 
-            elif(cx < destination[target][0] and condition < 3 and letter in ['C', 'B', 'H']):
+            elif(cx < destination[target][0] - 5 and condition < 3 and letter in ['C', 'B', 'H']):
                 target = 1
                 h1 = str(max(0, min(240, 80 - int((intHeadingDeg + 90) * 1))))
                 h2 = str(max(0, min(240, 80 + int((intHeadingDeg + 90) * 1))))
@@ -274,7 +274,7 @@ def move_bot(location, destination, destNo2, dictionary, letter, port,ids, allDe
             elif(cy > goupto['P'] + 60 and condition < 6 and letter in ['A', 'J', 'B', 'H']):
                 target = 2
                 if(port==2):
-                    shortestAngle, intHeadingDeg = getAngle(location[port], (815,150), laut_jao)
+                    shortestAngle, intHeadingDeg = getAngle(location[port], (800,150), laut_jao)
                 else:
                     shortestAngle, intHeadingDeg = getAngle(location[port], (840,150), laut_jao)
 
@@ -331,7 +331,7 @@ def move_bot(location, destination, destNo2, dictionary, letter, port,ids, allDe
                     dictionary[f'bot{port}'] = f'1010{h2}{h1}{servo}'
                     print("forward")
 
-                elif(intHeadingDeg > -50 and condition < 2):
+                elif(intHeadingDeg > -55 and condition < 2):
                     dictionary[f'bot{port}'] = f'01100900900'
                     print("anticlockwise")
                     target = 1
@@ -360,7 +360,7 @@ def move_bot(location, destination, destNo2, dictionary, letter, port,ids, allDe
                     target = 1
                     condition = 2
 
-                elif(cy > 325 and condition < 4 and letter == 'M'):
+                elif(cy > 328 and condition < 4 and letter == 'M'):
                     if intHeadingDeg < 0:
                         intHeadingDeg += 180
                     else:
@@ -372,7 +372,7 @@ def move_bot(location, destination, destNo2, dictionary, letter, port,ids, allDe
                     dictionary[f'bot{port}'] = f'1010{h2}{h1}{servo}'
                     condition = 3
 
-                elif(cy < 360 and condition < 4 and letter == 'D'):
+                elif(cy < 356 and condition < 4 and letter == 'D'):
                     h1 = str(max(0, min(240, 80 + int(intHeadingDeg * 1))))
                     h2 = str(max(0, min(240, 70 - int(intHeadingDeg * 1))))
                     h1 = '0'*(3-len(h1)) + h1
@@ -427,7 +427,7 @@ def move_bot(location, destination, destNo2, dictionary, letter, port,ids, allDe
                     condition = 5
 
                 elif(intHeadingDeg < -50 and  condition < 7):
-                    dictionary[f'bot{port}'] = f'10011001000'
+                    dictionary[f'bot{port}'] = f'10010900900'
                     print("clockwise")
                     target = 2
                     condition = 6

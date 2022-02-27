@@ -204,7 +204,7 @@ def move_bot(location, destination, destNo2, dictionary, letter, port,ids, allDe
                 print("RIGHT-forward-1")
                 condition = 2
 
-            elif(cx < destination[target][0] and condition < 3 and letter in ['C', 'B', 'H']):
+            elif(cx < destination[target][0] - 5 and condition < 3 and letter in ['C', 'B', 'H']):
                 target = 1
                 h1 = str(max(0, min(240, 80 - int((intHeadingDeg + 90) * 1))))
                 h2 = str(max(0, min(240, 80 + int((intHeadingDeg + 90) * 1))))
@@ -337,7 +337,7 @@ def move_bot(location, destination, destNo2, dictionary, letter, port,ids, allDe
                     target = 1
                     condition = 1
 
-                elif(cx < 1135 and condition < 2 and letter in 'MD'):
+                elif(cx < 1120 and condition < 2 and letter in 'MD'):
                     target = 1
                     h1,h2= getSpeeds(target, destination, position)
                     h1 = str(max(0, min(240, h1 - int(shortestAngle * 3))))
@@ -360,7 +360,7 @@ def move_bot(location, destination, destNo2, dictionary, letter, port,ids, allDe
                     target = 1
                     condition = 2
 
-                elif(cy > 325 and condition < 4 and letter == 'M'):
+                elif(cy > 328 and condition < 4 and letter == 'M'):
                     if intHeadingDeg < 0:
                         intHeadingDeg += 180
                     else:
@@ -372,7 +372,7 @@ def move_bot(location, destination, destNo2, dictionary, letter, port,ids, allDe
                     dictionary[f'bot{port}'] = f'1010{h2}{h1}{servo}'
                     condition = 3
 
-                elif(cy < 360 and condition < 4 and letter == 'D'):
+                elif(cy < 356 and condition < 4 and letter == 'D'):
                     h1 = str(max(0, min(240, 80 + int(intHeadingDeg * 1))))
                     h2 = str(max(0, min(240, 70 - int(intHeadingDeg * 1))))
                     h1 = '0'*(3-len(h1)) + h1
