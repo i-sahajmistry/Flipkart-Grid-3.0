@@ -58,7 +58,7 @@ There would be a random distribution of
 ## **Our Solution**
 
 ### About Bot
-<img src="/Images/Bot1.JPG" alt="BOT1" width="500"/> <img src="/Images/Bot2.JPG" alt="BOT2" width="500"/>
+<img src="/Images/Bot1.JPG" alt="BOT1" width="450"/> <img src="/Images/Bot2.JPG" alt="BOT2" width="450"/>
 
 
 > Bot was designed on solid works.
@@ -90,7 +90,6 @@ The message sent from server to client is a string consisting of 11 letters(Numb
 
 ##### Task of NodeMCU 
 _{File path: /MicroController/MicroController.ion}_ </break>
-![NodeMCU Control System Block Diagram](https://cldup.com/dTxpPi9lDf.thumb.png)
 1. Recieves message from server and decrepts it.
 2. Gets the rotation of both sides of motors and calculates difference.
 3. Using the speed from message and difference from encoder, it comes up with final speeds for both motors.
@@ -101,10 +100,11 @@ _{File path: /MicroController/MicroController.ion}_ </break>
 
 ##### Task of Python Script 
 _{File path: /Round 1/winner1.py and /Round 2/main.py}_ </break>
-![NodeMCU Control System Block Diagram](https://cldup.com/dTxpPi9lDf.thumb.png)
 1. Recieves input from camera using OpenCV.
 2. Detects the position and direction of motion of all the bots (bots have aruco markers on top). _{implementation: /Round 2/utils.py}_
 3. According to position and destination, the speed of both sides of motor are determined using a function.
 4. This speed is then sent to the client (bot) over the socket server.
 5. Bot moves.
 6. GoTo 1.
+
+<img src="/Images/Control Diagram.png" alt="Arena-Round2" width="900"/>
