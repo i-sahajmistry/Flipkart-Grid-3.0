@@ -107,4 +107,7 @@ _{File path: /Round 1/winner1.py and /Round 2/main.py}_ </break>
 5. Bot moves.
 6. GoTo 1.
 
+
 <img src="/Images/Control Diagram.png" alt="Arena-Round2" width="900"/>
+
+> Control Diagram of our Solution
